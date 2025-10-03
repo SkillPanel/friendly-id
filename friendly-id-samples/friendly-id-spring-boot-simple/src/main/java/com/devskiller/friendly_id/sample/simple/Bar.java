@@ -6,6 +6,13 @@ public class Bar {
 
 	private UUID id;
 
+	public Bar() {
+	}
+
+	public Bar(UUID id) {
+		this.id = id;
+	}
+
 	public UUID getId() {
 		return id;
 	}

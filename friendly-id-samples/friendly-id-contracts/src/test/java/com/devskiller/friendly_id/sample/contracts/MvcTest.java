@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.hateoas.server.EntityLinks;
@@ -24,7 +24,7 @@ public class MvcTest {
 
 	protected StandaloneMockMvcBuilder mockMvcBuilder;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		mockMvcBuilder = standaloneSetup(new FooController(mock(EntityLinks.class)));
 		DefaultFormattingConversionService service = new DefaultFormattingConversionService();

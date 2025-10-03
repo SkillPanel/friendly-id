@@ -38,7 +38,7 @@ class Base62 {
 			int digit = divmod[1].intValue();
 			result.insert(0, DIGITS.charAt(digit));
 		}
-		return (result.length() == 0) ? DIGITS.substring(0, 1) : result.toString();
+		return (result.isEmpty()) ? DIGITS.substring(0, 1) : result.toString();
 	}
 
 	private static BigInteger throwIllegalArgumentException(String format, Object... args) {
@@ -59,7 +59,7 @@ class Base62 {
 
 	static BigInteger decode(final String string, int bitLimit) {
 		requireNonNull(string, "Decoded string must not be null");
-		if (string.length() == 0) {
+		if (string.isEmpty()) {
 			return throwIllegalArgumentException("String '%s' must not be empty", string);
 		}
 
@@ -79,7 +79,7 @@ class Base62 {
 
 	}
 
-	private static BiFunction<String, Integer, Integer> charAt = (string, index) ->
+	private static final BiFunction<String, Integer, Integer> charAt = (string, index) ->
 			DIGITS.indexOf(string.charAt(string.length() - index - 1));
 
 }

@@ -1,21 +1,20 @@
 package com.devskiller.friendly_id;
 
-import java.math.BigInteger;
-import java.util.Arrays;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 
-import io.vavr.Tuple2;
-import org.junit.Test;
+import java.math.BigInteger;
+import java.util.Random;
 
 import static com.devskiller.friendly_id.BigIntegerPairing.pair;
 import static com.devskiller.friendly_id.BigIntegerPairing.unpair;
-import static io.vavr.test.Property.def;
 import static java.math.BigInteger.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BigIntegerPairingTest {
+class BigIntegerPairingTest {
 
 	@Test
-	public void shouldPairTwoLongs() {
+	void shouldPairTwoLongs() {
 		long x = 1;
 		long y = 2;
 
@@ -24,30 +23,27 @@ public class BigIntegerPairingTest {
 		assertThat(unpair(z)).contains(valueOf(x), valueOf(y));
 	}
 
-	@Test
-	public void resultOfPairingShouldBePositive() {
-		def("pair(longs).signum() > 0")
-				.forAll(DataProvider.LONG_PAIRS)
-				.suchThat(longs -> makePair(longs).signum() > 0)
-				.check(-1, 100_000)
-				.assertIsSatisfied();
+	@RepeatedTest(1000)
+	void resultOfPairingShouldBePositive() {
+		Random random = new Random();
+		long x = random.nextLong();
+		long y = random.nextLong();
+
+		BigInteger paired = pair(valueOf(x), valueOf(y));
+
+		assertThat(paired.signum()).isGreaterThan(0);
 	}
 
-	private BigInteger makePair(Tuple2<Long, Long> longs) {
-		return longs.apply((x, y) -> pair(valueOf(x), valueOf(y)));
-	}
+	@RepeatedTest(1000)
+	void pairingLongsShouldBeReversible() {
+		Random random = new Random();
+		long x = random.nextLong();
+		long y = random.nextLong();
 
-	@Test
-	public void pairingLongsShouldBeReversible() {
-		def("Arrays.equals(unpair(pair(longs)), asArray(longs))")
-				.forAll(DataProvider.LONG_PAIRS)
-				.suchThat(longs -> Arrays.equals(unpair(makePair(longs)), asArray(longs)))
-				.check(-1, 100_000)
-				.assertIsSatisfied();
-	}
+		BigInteger paired = pair(valueOf(x), valueOf(y));
+		BigInteger[] unpaired = unpair(paired);
 
-	private BigInteger[] asArray(Tuple2<Long, Long> longsPair) {
-		return longsPair.apply((x, y) -> new BigInteger[]{valueOf(x), valueOf(y)});
+		assertThat(unpaired).containsExactly(valueOf(x), valueOf(y));
 	}
 
 }

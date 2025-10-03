@@ -1,14 +1,11 @@
 package com.devskiller.friendly_id.sample.hateos;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import com.devskiller.friendly_id.spring.EnableFriendlyId;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-
-import com.devskiller.friendly_id.spring.EnableFriendlyId;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -17,16 +14,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @WebMvcTest(BarController.class)
 @EnableFriendlyId
-public class BarControllerTest {
+@Import({FooResourceAssembler.class, BarResourceAssembler.class})
+class BarControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
 
 	@Test
-	public void shouldGet() throws Exception {
+	void shouldGet() throws Exception {
 		mockMvc.perform(get("/foos/{fooId}/bars/{barId}", "foo", "bar"))
 				.andDo(print())
 				.andExpect(status().isOk())

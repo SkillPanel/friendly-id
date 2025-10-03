@@ -13,6 +13,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.devskiller.friendly_id.FriendlyId;
 import com.devskiller.friendly_id.jackson.FriendlyIdModule;
 
+/**
+ * Configuration for FriendlyId integration with Spring MVC.
+ * <p>
+ * This configuration:
+ * <ul>
+ *   <li>Registers converters for automatic String ⇄ UUID conversion in path variables and request parameters</li>
+ *   <li>Registers Jackson module for JSON serialization/deserialization of UUIDs as FriendlyIds</li>
+ * </ul>
+ * <p>
+ * Enable this configuration by adding {@link EnableFriendlyId @EnableFriendlyId} to your configuration class,
+ * or use the spring-boot-starter for automatic configuration.
+ */
 @Configuration
 public class FriendlyIdConfiguration implements WebMvcConfigurer {
 
@@ -27,7 +39,13 @@ public class FriendlyIdConfiguration implements WebMvcConfigurer {
 		return new FriendlyIdModule();
 	}
 
-	//FIXME: make this public
+	/**
+	 * Converter that converts FriendlyId strings to UUID.
+	 * <p>
+	 * This converter is automatically registered in Spring's conversion service
+	 * and allows path variables and request parameters to be automatically converted
+	 * from FriendlyId format to UUID.
+	 */
 	public static class StringToUuidConverter implements Converter<String, UUID> {
 
 		@Override
@@ -36,7 +54,13 @@ public class FriendlyIdConfiguration implements WebMvcConfigurer {
 		}
 	}
 
-
+	/**
+	 * Converter that converts UUID to FriendlyId strings.
+	 * <p>
+	 * This converter is automatically registered in Spring's conversion service
+	 * and allows UUIDs to be automatically converted to FriendlyId format
+	 * in responses and URL generation.
+	 */
 	public static class UuidToStringConverter implements Converter<UUID, String> {
 
 		@Override

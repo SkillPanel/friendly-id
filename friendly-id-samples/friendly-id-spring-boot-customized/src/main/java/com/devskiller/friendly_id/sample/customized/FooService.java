@@ -2,17 +2,20 @@ package com.devskiller.friendly_id.sample.customized;
 
 import java.util.UUID;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
-class FooService {
+public class FooService {
 
-	Bar find(UUID uuid) {
-		System.out.println("find: " + uuid);
+	public Bar find(UUID uuid) {
+		log.info("find: {}",uuid);
 		return new Bar(uuid, uuid);
 	}
 
-	void update(UUID id, Bar bar) {
-		System.out.println("update: " + id + ":" + bar);
+	public void update(UUID id, Bar bar) {
+		log.info("update: {}:{}", id, bar);
 	}
 }

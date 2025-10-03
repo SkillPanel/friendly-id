@@ -1,35 +1,30 @@
 package com.devskiller.friendly_id.sample.simple;
 
-import java.util.UUID;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.UUID;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ApplicationTest {
+class ApplicationTest {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
 
-
 	@Test
-	public void shouldSerialize() {
-
+	void shouldSerialize() {
 		// given
 		UUID uuid = UUID.randomUUID();
 
-		// expect
+		// when
 		Bar entity = restTemplate.getForEntity("/bars/{id}", Bar.class, uuid).getBody();
 
+		// then
+		then(entity).isNotNull();
 		then(entity.getId()).isEqualTo(uuid);
-
 	}
 }
