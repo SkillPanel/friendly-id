@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import com.devskiller.friendly_id.FriendlyId;
+import com.devskiller.friendly_id.type.FriendlyId;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,28 +18,28 @@ class FriendlyIdConverterTest {
 		UUID uuid = UUID.fromString("7b0f3a3e-3b3a-4b3a-8b3a-3b3a3b3a3b3a");
 
 		// when
-		String friendlyId = converter.from(uuid);
+		FriendlyId friendlyId = converter.from(uuid);
 
 		// then
-		assertEquals(FriendlyId.toFriendlyId(uuid), friendlyId);
+		assertEquals(uuid, friendlyId.uuid());
 	}
 
 	@Test
 	void shouldConvertFriendlyIdToUuid() {
 		// given
-		String friendlyId = "5wbwf6yUxVBcr48AMbz9cb";
+		FriendlyId friendlyId = FriendlyId.fromString("5wbwf6yUxVBcr48AMbz9cb");
 
 		// when
 		UUID uuid = converter.to(friendlyId);
 
 		// then
-		assertEquals(FriendlyId.toUuid(friendlyId), uuid);
+		assertEquals(friendlyId.uuid(), uuid);
 	}
 
 	@Test
 	void shouldHandleNullUuid() {
 		// when
-		String friendlyId = converter.from(null);
+		FriendlyId friendlyId = converter.from(null);
 
 		// then
 		assertNull(friendlyId);
@@ -66,10 +66,10 @@ class FriendlyIdConverterTest {
 	@Test
 	void shouldReturnCorrectToType() {
 		// when
-		Class<String> toType = converter.toType();
+		Class<FriendlyId> toType = converter.toType();
 
 		// then
-		assertEquals(String.class, toType);
+		assertEquals(FriendlyId.class, toType);
 	}
 
 	@Test
@@ -78,10 +78,23 @@ class FriendlyIdConverterTest {
 		UUID originalUuid = UUID.randomUUID();
 
 		// when
-		String friendlyId = converter.from(originalUuid);
+		FriendlyId friendlyId = converter.from(originalUuid);
 		UUID convertedUuid = converter.to(friendlyId);
 
 		// then
 		assertEquals(originalUuid, convertedUuid);
+	}
+
+	@Test
+	void shouldConvertToStringWhenNeeded() {
+		// given
+		UUID uuid = UUID.fromString("7b0f3a3e-3b3a-4b3a-8b3a-3b3a3b3a3b3a");
+		FriendlyId friendlyId = converter.from(uuid);
+
+		// when
+		String friendlyIdString = friendlyId.toString();
+
+		// then
+		assertEquals(com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid), friendlyIdString);
 	}
 }
