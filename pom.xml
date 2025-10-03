@@ -6,7 +6,7 @@
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-project</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>${revision}</version>
 
     <name>friendly id</name>
     <description>Library to convert uuid to url friendly IDs basing on base62</description>
@@ -24,6 +24,9 @@
     </modules>
 
     <properties>
+        <!-- CI-friendly version properties -->
+        <revision>1.1.1-SNAPSHOT</revision>
+        
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>21</maven.compiler.source>

@@ -5,7 +5,7 @@
 
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>spring-boot-hateos</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>${revision}</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -15,6 +15,7 @@
     </parent>
 
     <properties>
+        <revision>1.1.1-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>21</java.version>

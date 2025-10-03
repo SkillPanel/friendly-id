@@ -5,7 +5,7 @@
     <parent>
         <artifactId>friendly-id-project</artifactId>
         <groupId>com.devskiller.friendly-id</groupId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>${revision}</version>
         <relativePath>..</relativePath>
     </parent>
 
