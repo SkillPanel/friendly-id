@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>friendly-id-project</artifactId>
+        <groupId>com.devskiller.friendly-id</groupId>
+        <version>1.1.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <artifactId>friendly-id-jooq</artifactId>
+
+    <name>FriendlyId jOOQ Integration</name>
+    <description>jOOQ converters for FriendlyId - enables transparent UUID to FriendlyId conversion in database queries</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.devskiller.friendly-id</groupId>
+            <artifactId>friendly-id</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
