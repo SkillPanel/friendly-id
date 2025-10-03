@@ -16,6 +16,7 @@
         <module>friendly-id</module>
         <module>friendly-id-jackson-datatype</module>
         <module>friendly-id-jooq</module>
+        <module>friendly-id-jpa</module>
         <module>friendly-id-spring-boot</module>
         <module>friendly-id-spring-boot-starter</module>
         <module>friendly-id-samples</module>
@@ -89,6 +90,11 @@
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq</artifactId>
                 <version>3.19.16</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.persistence</groupId>
+                <artifactId>jakarta.persistence-api</artifactId>
+                <version>3.1.0</version>
             </dependency>
             <dependency>
                 <groupId>org.assertj</groupId>

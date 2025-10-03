@@ -119,4 +119,19 @@ class FriendlyIdTest {
 		assertEquals(friendlyId, reconstructed);
 		assertEquals(originalUuid, reconstructed.uuid());
 	}
+
+	@Test
+	void shouldBeEqualRegardlessOfCreationMethod() {
+		// given
+		UUID uuid = UUID.fromString("7b0f3a3e-3b3a-4b3a-8b3a-3b3a3b3a3b3a");
+
+		// when
+		FriendlyId fromUuid = FriendlyId.of(uuid);
+		FriendlyId fromString = FriendlyId.fromString(com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid));
+
+		// then
+		assertEquals(fromUuid, fromString);
+		assertEquals(fromUuid.hashCode(), fromString.hashCode());
+		assertEquals(fromUuid.toString(), fromString.toString());
+	}
 }
