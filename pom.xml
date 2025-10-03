@@ -17,6 +17,7 @@
         <module>friendly-id-jackson-datatype</module>
         <module>friendly-id-jooq</module>
         <module>friendly-id-jpa</module>
+        <module>friendly-id-openfeign</module>
         <module>friendly-id-spring-boot</module>
         <module>friendly-id-spring-boot-starter</module>
         <module>friendly-id-samples</module>
@@ -28,6 +29,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <spring-boot.version>3.4.1</spring-boot.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
     </properties>
 
     <licenses>
@@ -101,6 +103,13 @@
                 <artifactId>assertj-core</artifactId>
                 <version>3.27.3</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

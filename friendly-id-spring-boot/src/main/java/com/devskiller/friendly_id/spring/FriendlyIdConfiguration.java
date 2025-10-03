@@ -32,6 +32,8 @@ public class FriendlyIdConfiguration implements WebMvcConfigurer {
 	public void addFormatters(FormatterRegistry registry) {
 		registry.addConverter(new StringToUuidConverter());
 		registry.addConverter(new UuidToStringConverter());
+		registry.addConverter(new StringToFriendlyIdConverter());
+		registry.addConverter(new FriendlyIdToStringConverter());
 	}
 
 	@Bean
@@ -66,6 +68,36 @@ public class FriendlyIdConfiguration implements WebMvcConfigurer {
 		@Override
 		public String convert(UUID id) {
 			return FriendlyId.toFriendlyId(id);
+		}
+	}
+
+	/**
+	 * Converter that converts FriendlyId strings to FriendlyId value objects.
+	 * <p>
+	 * This converter is automatically registered in Spring's conversion service
+	 * and allows path variables and request parameters to be automatically converted
+	 * from FriendlyId format to FriendlyId value object.
+	 */
+	public static class StringToFriendlyIdConverter implements Converter<String, com.devskiller.friendly_id.type.FriendlyId> {
+
+		@Override
+		public com.devskiller.friendly_id.type.FriendlyId convert(String id) {
+			return com.devskiller.friendly_id.type.FriendlyId.fromString(id);
+		}
+	}
+
+	/**
+	 * Converter that converts FriendlyId value objects to FriendlyId strings.
+	 * <p>
+	 * This converter is automatically registered in Spring's conversion service
+	 * and allows FriendlyId value objects to be automatically converted to FriendlyId format
+	 * in responses and URL generation.
+	 */
+	public static class FriendlyIdToStringConverter implements Converter<com.devskiller.friendly_id.type.FriendlyId, String> {
+
+		@Override
+		public String convert(com.devskiller.friendly_id.type.FriendlyId id) {
+			return id.toString();
 		}
 	}
 }

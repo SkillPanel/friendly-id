@@ -12,6 +12,9 @@
 
     <artifactId>friendly-id</artifactId>
 
+    <name>FriendlyId Core</name>
+    <description>Core library for converting UUIDs to URL-friendly Base62-encoded IDs</description>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

@@ -11,6 +11,9 @@
 
     <artifactId>friendly-id-jackson-datatype</artifactId>
 
+    <name>FriendlyId Jackson Datatype</name>
+    <description>Jackson module for JSON serialization/deserialization of UUIDs as FriendlyIds</description>
+
     <dependencies>
         <dependency>
             <groupId>com.devskiller.friendly-id</groupId>
@@ -35,8 +38,8 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -49,8 +52,8 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
                 <configuration>
                     <parameters>true</parameters>
                 </configuration>
