@@ -12,10 +12,15 @@ public class FriendlyIdModule extends SimpleModule {
 		introspector = new FriendlyIdAnnotationIntrospector();
 		addDeserializer(UUID.class, new FriendlyIdDeserializer());
 		addSerializer(UUID.class, new FriendlyIdSerializer());
+
+		// Add serializer/deserializer for FriendlyId value object
+		addDeserializer(com.devskiller.friendly_id.type.FriendlyId.class, new FriendlyIdValueDeserializer());
+		addSerializer(com.devskiller.friendly_id.type.FriendlyId.class, new FriendlyIdValueSerializer());
 	}
 
 	@Override
 	public void setupModule(SetupContext context) {
+		super.setupModule(context);
 		context.insertAnnotationIntrospector(introspector);
 	}
 }
