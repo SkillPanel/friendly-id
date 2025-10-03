@@ -31,5 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `friendly-id-spring-boot-starter` now includes `friendly-id-jackson-datatype` transitively
 - `friendly-id-openfeign` now includes `friendly-id-jackson-datatype` transitively
 
+### Infrastructure
+- Migrated from legacy Sonatype OSSRH to Central Portal for Maven Central publishing
+- Updated `central-publishing-maven-plugin` to 0.6.0 for automated publishing
+
 ## [1.1.0] - Previous version
 - Legacy implementation with UUID-only support
