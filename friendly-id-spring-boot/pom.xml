@@ -25,6 +25,12 @@
             <artifactId>friendly-id-jackson-datatype</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- Jackson 3 databind for JacksonModule type -->
+        <dependency>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>

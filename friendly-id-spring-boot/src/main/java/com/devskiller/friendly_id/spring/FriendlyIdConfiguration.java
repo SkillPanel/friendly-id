@@ -2,7 +2,7 @@ package com.devskiller.friendly_id.spring;
 
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.Module;
+import tools.jackson.databind.JacksonModule;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +37,7 @@ public class FriendlyIdConfiguration implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public Module friendlyIdModule() {
+	public JacksonModule friendlyIdModule() {
 		return new FriendlyIdModule();
 	}
 

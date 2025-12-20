@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FriendlyIdDeserializerTest {
 
 	@Test
-	void shouldSerializeFriendlyId() throws Exception {
+	void shouldSerializeFriendlyId() {
 		UUID uuid = UUID.randomUUID();
 		String json = mapper().writeValueAsString(uuid);
 		System.out.println(json);
@@ -20,7 +20,7 @@ class FriendlyIdDeserializerTest {
 	}
 
 	@Test
-	void shouldDeserializeFriendlyId() throws Exception {
+	void shouldDeserializeFriendlyId() {
 		String friendlyId = "2YSfgVHnEYbYgfFKhEX3Sz";
 		UUID uuid = mapper().readValue("\"" + friendlyId + "\"", UUID.class);
 		assertThat(uuid).isEqualByComparingTo(FriendlyId.toUuid(friendlyId));

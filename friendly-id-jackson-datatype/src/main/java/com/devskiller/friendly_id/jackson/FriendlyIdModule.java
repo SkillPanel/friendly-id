@@ -2,25 +2,28 @@ package com.devskiller.friendly_id.jackson;
 
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import tools.jackson.databind.module.SimpleModule;
 
+import com.devskiller.friendly_id.type.FriendlyId;
+
+/**
+ * Jackson 3 module for FriendlyId serialization/deserialization.
+ * <p>
+ * This module registers custom serializers and deserializers for UUID and FriendlyId types,
+ * enabling automatic conversion between UUID values and their FriendlyId string representation.
+ * </p>
+ */
 public class FriendlyIdModule extends SimpleModule {
 
-	private FriendlyIdAnnotationIntrospector introspector;
-
 	public FriendlyIdModule() {
-		introspector = new FriendlyIdAnnotationIntrospector();
-		addDeserializer(UUID.class, new FriendlyIdDeserializer());
+		super("FriendlyIdModule");
+
+		// UUID serializers/deserializers
 		addSerializer(UUID.class, new FriendlyIdSerializer());
+		addDeserializer(UUID.class, new FriendlyIdDeserializer());
 
-		// Add serializer/deserializer for FriendlyId value object
-		addDeserializer(com.devskiller.friendly_id.type.FriendlyId.class, new FriendlyIdValueDeserializer());
-		addSerializer(com.devskiller.friendly_id.type.FriendlyId.class, new FriendlyIdValueSerializer());
-	}
-
-	@Override
-	public void setupModule(SetupContext context) {
-		super.setupModule(context);
-		context.insertAnnotationIntrospector(introspector);
+		// FriendlyId value object serializers/deserializers
+		addSerializer(FriendlyId.class, new FriendlyIdValueSerializer());
+		addDeserializer(FriendlyId.class, new FriendlyIdValueDeserializer());
 	}
 }

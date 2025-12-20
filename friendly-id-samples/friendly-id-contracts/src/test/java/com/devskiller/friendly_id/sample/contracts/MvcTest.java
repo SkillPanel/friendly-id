@@ -2,18 +2,16 @@ package com.devskiller.friendly_id.sample.contracts;
 
 import com.devskiller.friendly_id.FriendlyId;
 import com.devskiller.friendly_id.jackson.FriendlyIdModule;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.hateoas.server.EntityLinks;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonHttpMessageConverter;
+import org.springframework.http.converter.json.JsonMapperBuilder;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.UUID;
 
@@ -29,7 +27,7 @@ public class MvcTest {
 		mockMvcBuilder = standaloneSetup(new FooController(mock(EntityLinks.class)));
 		DefaultFormattingConversionService service = new DefaultFormattingConversionService();
 		service.addConverter(new StringToUuidConverter());
-		mockMvcBuilder.setMessageConverters(jackson2HttpMessageConverter()).setConversionService(service);
+		mockMvcBuilder.setMessageConverters(jacksonHttpMessageConverter()).setConversionService(service);
 		RestAssuredMockMvc.standaloneSetup(mockMvcBuilder);
 	}
 
@@ -41,21 +39,15 @@ public class MvcTest {
 		}
 	}
 
-	private MappingJackson2HttpMessageConverter jackson2HttpMessageConverter() {
-		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-		Jackson2ObjectMapperBuilder builder = this.jacksonBuilder();
-		converter.setObjectMapper(builder.build());
-		return converter;
+	private JacksonHttpMessageConverter jacksonHttpMessageConverter() {
+		JsonMapper mapper = jsonMapper();
+		return new JacksonHttpMessageConverter(mapper);
 	}
 
-	protected Jackson2ObjectMapperBuilder jacksonBuilder() {
-		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-		builder.modules(new ParameterNamesModule(JsonCreator.Mode.PROPERTIES), new JavaTimeModule(), new FriendlyIdModule());
-		builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-		builder.simpleDateFormat("yyyy-MM-dd");
-		builder.indentOutput(true);
-		return builder;
+	protected JsonMapper jsonMapper() {
+		return JsonMapper.builder()
+				.addModule(new FriendlyIdModule())
+				.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+				.build();
 	}
-
-
 }

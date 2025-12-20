@@ -25,14 +25,15 @@
 
     <properties>
         <!-- CI-friendly version properties -->
-        <revision>1.1.1-SNAPSHOT</revision>
-        
+        <revision>2.0.0-SNAPSHOT</revision>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <spring-boot.version>3.4.1</spring-boot.version>
-        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <spring-boot.version>4.0.1</spring-boot.version>
+        <spring-cloud.version>2025.0.0</spring-cloud.version>
+        <jooq.version>3.20.1</jooq.version>
     </properties>
 
     <licenses>
@@ -94,7 +95,7 @@
             <dependency>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq</artifactId>
-                <version>3.19.16</version>
+                <version>${jooq.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.persistence</groupId>
