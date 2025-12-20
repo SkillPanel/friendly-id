@@ -7,10 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.hateoas.server.EntityLinks;
-import org.springframework.http.converter.json.JacksonHttpMessageConverter;
-import org.springframework.http.converter.json.JsonMapperBuilder;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
-import tools.jackson.databind.SerializationFeature;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.util.UUID;
@@ -39,15 +37,14 @@ public class MvcTest {
 		}
 	}
 
-	private JacksonHttpMessageConverter jacksonHttpMessageConverter() {
+	private JacksonJsonHttpMessageConverter jacksonHttpMessageConverter() {
 		JsonMapper mapper = jsonMapper();
-		return new JacksonHttpMessageConverter(mapper);
+		return new JacksonJsonHttpMessageConverter(mapper);
 	}
 
 	protected JsonMapper jsonMapper() {
 		return JsonMapper.builder()
 				.addModule(new FriendlyIdModule())
-				.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
 				.build();
 	}
 }

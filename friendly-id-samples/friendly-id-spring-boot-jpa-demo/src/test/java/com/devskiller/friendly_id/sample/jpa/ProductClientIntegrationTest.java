@@ -1,20 +1,23 @@
 package com.devskiller.friendly_id.sample.jpa;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
 import com.devskiller.friendly_id.type.FriendlyId;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration test demonstrating FriendlyId usage with OpenFeign.
+ * Integration test demonstrating FriendlyId usage with JPA.
  * <p>
  * This test shows that FriendlyId works seamlessly across the entire stack:
  * </p>
@@ -22,25 +25,24 @@ import static org.assertj.core.api.Assertions.assertThat;
  *   <li>Entity stored in database with FriendlyId as UUID</li>
  *   <li>REST controller accepts FriendlyId in @PathVariable</li>
  *   <li>JSON serialization converts FriendlyId to/from string</li>
- *   <li>OpenFeign client automatically handles FriendlyId conversion</li>
  * </ol>
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@EnableFeignClients
+@SpringBootTest
+@AutoConfigureMockMvc
 class ProductClientIntegrationTest {
 
 	@Autowired
 	private ProductRepository repository;
 
 	@Autowired
-	private ProductClient client;
+	private MockMvc mockMvc;
 
 	private Product testProduct;
 
 	@BeforeEach
 	void setUp() {
 		repository.deleteAll();
-		
+
 		testProduct = new Product(
 				"Test Product",
 				"Product for integration testing",
@@ -51,40 +53,40 @@ class ProductClientIntegrationTest {
 	}
 
 	@Test
-	void shouldRetrieveAllProductsViaOpenFeign() {
-		List<Product> products = client.getAllProducts();
-
-		assertThat(products).hasSize(1);
-		assertThat(products.get(0).getId()).isEqualTo(testProduct.getId());
-		assertThat(products.get(0).getName()).isEqualTo("Test Product");
+	void shouldRetrieveAllProducts() throws Exception {
+		mockMvc.perform(get("/api/products")
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$", hasSize(1)))
+				.andExpect(jsonPath("$[0].name", is("Test Product")));
 	}
 
 	@Test
-	void shouldRetrieveProductByFriendlyIdViaOpenFeign() {
+	void shouldRetrieveProductByFriendlyId() throws Exception {
 		FriendlyId productId = testProduct.getId();
 
-		Product retrievedProduct = client.getProductById(productId);
-
-		assertThat(retrievedProduct).isNotNull();
-		assertThat(retrievedProduct.getId()).isEqualTo(productId);
-		assertThat(retrievedProduct.getName()).isEqualTo("Test Product");
-		assertThat(retrievedProduct.getDescription()).isEqualTo("Product for integration testing");
-		assertThat(retrievedProduct.getPrice()).isEqualByComparingTo("99.99");
-		assertThat(retrievedProduct.getStock()).isEqualTo(10);
+		mockMvc.perform(get("/api/products/{id}", productId.toString())
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.id", is(productId.toString())))
+				.andExpect(jsonPath("$.name", is("Test Product")))
+				.andExpect(jsonPath("$.description", is("Product for integration testing")))
+				.andExpect(jsonPath("$.price", is(99.99)))
+				.andExpect(jsonPath("$.stock", is(10)));
 	}
 
 	@Test
-	void shouldHandleFriendlyIdConversionInUrlPath() {
+	void shouldHandleFriendlyIdConversionInUrlPath() throws Exception {
 		// This test verifies that FriendlyId in @PathVariable is correctly:
-		// 1. Converted to string in the URL by OpenFeign encoder
-		// 2. Parsed from string by Spring MVC converter
-		// 3. Used to query the database
-		// 4. Serialized to JSON string in response
-		// 5. Deserialized by OpenFeign decoder back to FriendlyId object
+		// 1. Parsed from string by Spring MVC converter
+		// 2. Used to query the database via JPA converter
+		// 3. Serialized to JSON string in response
 
-		Product product = client.getProductById(testProduct.getId());
-
-		assertThat(product.getId()).isEqualTo(testProduct.getId());
-		assertThat(product.getId().toString()).matches("[0-9A-Za-z]{21,22}");
+		mockMvc.perform(get("/api/products/{id}", testProduct.getId().toString())
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id", matchesPattern("[0-9A-Za-z]{21,22}")));
 	}
 }
