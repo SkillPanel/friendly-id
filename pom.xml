@@ -79,8 +79,8 @@
     </issueManagement>
 
     <ciManagement>
-        <system>Travis</system>
-        <url>https://travis-ci.org/Devskiller/friendly-id</url>
+        <system>GitHub Actions</system>
+        <url>https://github.com/SkillPanel/friendly-id/actions</url>
     </ciManagement>
 
     <dependencyManagement>
