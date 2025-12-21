@@ -1,5 +1,6 @@
 package com.devskiller.friendly_id.jackson2;
 
+import java.io.Serial;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
@@ -12,6 +13,7 @@ import com.devskiller.friendly_id.IdFormat;
 
 public class FriendlyIdAnnotationIntrospector extends JacksonAnnotationIntrospector {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Override

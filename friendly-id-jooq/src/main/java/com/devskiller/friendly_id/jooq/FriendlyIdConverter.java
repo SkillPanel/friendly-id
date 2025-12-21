@@ -1,5 +1,6 @@
 package com.devskiller.friendly_id.jooq;
 
+import java.io.Serial;
 import java.util.UUID;
 
 import org.jooq.Converter;
@@ -66,6 +67,7 @@ import com.devskiller.friendly_id.type.FriendlyId;
  */
 public class FriendlyIdConverter implements Converter<UUID, FriendlyId> {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
