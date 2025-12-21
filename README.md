@@ -119,20 +119,20 @@ Usage
 ---
 
 ```java
-FriendlyId.createFriendlyId();
+FriendlyIds.createFriendlyId();
 ```
 
 This creates a new, random FriendlyID, for example: `5wbwf6yUxVBcr48AMbz9cb`
 
 ```java
-FriendlyId.toFriendlyId(UUID.fromString("c3587ec5-0976-497f-8374-61e0c2ea3da5"));
+FriendlyIds.toFriendlyId(UUID.fromString("c3587ec5-0976-497f-8374-61e0c2ea3da5"));
 ```
 
 This converts a UUID in the form of a string to a FriendlyID, for example: `5wbwf6yUxVBcr48AMbz9cb`
 
 
  ```java
-FriendlyId.toUuid("5wbwf6yUxVBcr48AMbz9cb");
+FriendlyIds.toUuid("5wbwf6yUxVBcr48AMbz9cb");
 ```
 
 This converts a FriendlyID to its UUID, for example: `c3587ec5-0976-497f-8374-61e0c2ea3da5`
@@ -340,6 +340,22 @@ Register the module:
 ObjectMapper mapper = new ObjectMapper()
    .registerModule(new FriendlyIdJackson2Module());
 ```
+
+#### Utility class renamed
+
+The utility class has been renamed from `FriendlyId` to `FriendlyIds` (plural) following Java conventions:
+
+```java
+// Before (1.x)
+import com.devskiller.friendly_id.FriendlyId;
+FriendlyId.toUuid("5wbwf6yUxVBcr48AMbz9cb");
+
+// After (2.x)
+import com.devskiller.friendly_id.FriendlyIds;
+FriendlyIds.toUuid("5wbwf6yUxVBcr48AMbz9cb");
+```
+
+The old `FriendlyId` class is deprecated and will be removed in a future version.
 
 #### @IdFormat annotation
 

@@ -3,7 +3,7 @@ package com.devskiller.friendly_id.openfeign;
 import java.lang.reflect.Type;
 import java.util.UUID;
 
-import com.devskiller.friendly_id.FriendlyId;
+import com.devskiller.friendly_id.FriendlyIds;
 
 import feign.RequestTemplate;
 import feign.codec.EncodeException;
@@ -37,7 +37,7 @@ public class FriendlyIdEncoder implements Encoder {
 	@Override
 	public void encode(Object object, Type bodyType, RequestTemplate template) throws EncodeException {
 		if (object instanceof UUID uuid) {
-			delegate.encode(FriendlyId.toFriendlyId(uuid), bodyType, template);
+			delegate.encode(FriendlyIds.toFriendlyId(uuid), bodyType, template);
 		} else if (object instanceof com.devskiller.friendly_id.type.FriendlyId friendlyId) {
 			delegate.encode(friendlyId.toString(), bodyType, template);
 		} else {

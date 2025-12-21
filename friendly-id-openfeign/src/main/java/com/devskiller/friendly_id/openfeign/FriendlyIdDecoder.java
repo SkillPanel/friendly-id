@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.UUID;
 
-import com.devskiller.friendly_id.FriendlyId;
+import com.devskiller.friendly_id.FriendlyIds;
 
 import feign.FeignException;
 import feign.Response;
@@ -43,7 +43,7 @@ public class FriendlyIdDecoder implements Decoder {
 		Object decoded = delegate.decode(response, type);
 
 		if (type == UUID.class && decoded instanceof String stringValue) {
-			return FriendlyId.toUuid(stringValue);
+			return FriendlyIds.toUuid(stringValue);
 		}
 
 		if (type == com.devskiller.friendly_id.type.FriendlyId.class && decoded instanceof String stringValue) {

@@ -111,7 +111,7 @@ public final class FriendlyId implements Serializable, Comparable<FriendlyId> {
 		if (isStandardUuidFormat(value)) {
 			return new FriendlyId(UUID.fromString(value));
 		}
-		return new FriendlyId(com.devskiller.friendly_id.FriendlyId.toUuid(value));
+		return new FriendlyId(com.devskiller.friendly_id.FriendlyIds.toUuid(value));
 	}
 
 	/**
@@ -162,7 +162,7 @@ public final class FriendlyId implements Serializable, Comparable<FriendlyId> {
 	 * @return the FriendlyId string
 	 */
 	public String value() {
-		return com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid);
+		return com.devskiller.friendly_id.FriendlyIds.toFriendlyId(uuid);
 	}
 
 	/**

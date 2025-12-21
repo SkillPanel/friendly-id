@@ -8,7 +8,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
 
-import com.devskiller.friendly_id.FriendlyId;
+import com.devskiller.friendly_id.FriendlyIds;
 
 public class FriendlyIdDeserializer extends UUIDDeserializer {
 
@@ -21,7 +21,7 @@ public class FriendlyIdDeserializer extends UUIDDeserializer {
 			if (looksLikeUuid(string)) {
 				return super.deserialize(parser, deserializationContext);
 			} else {
-				return FriendlyId.toUuid(string);
+				return FriendlyIds.toUuid(string);
 			}
 		}
 		throw new IllegalStateException("This is not friendly id");
