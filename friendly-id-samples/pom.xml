@@ -4,18 +4,22 @@
 
     <artifactId>friendly-id-samples</artifactId>
     <packaging>pom</packaging>
+    <name>FriendlyId Samples</name>
+    <description>Sample applications demonstrating FriendlyId usage</description>
 
     <parent>
         <groupId>com.devskiller.friendly-id</groupId>
         <artifactId>friendly-id-project</artifactId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>${revision}</version>
         <relativePath>..</relativePath>
     </parent>
 
     <modules>
         <module>friendly-id-spring-boot-simple</module>
+        <module>friendly-id-spring-boot3-simple</module>
         <module>friendly-id-spring-boot-customized</module>
         <module>friendly-id-spring-boot-hateos</module>
+        <module>friendly-id-spring-boot-jpa-demo</module>
         <module>friendly-id-contracts</module>
     </modules>
 
@@ -25,6 +29,19 @@
                 <artifactId>maven-install-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <configuration>
+                    <skipPublishing>true</skipPublishing>
                 </configuration>
             </plugin>
         </plugins>

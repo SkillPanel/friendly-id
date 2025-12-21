@@ -6,26 +6,24 @@
     <parent>
         <groupId>com.devskiller.friendly-id</groupId>
         <artifactId>friendly-id-project</artifactId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>${revision}</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>friendly-id</artifactId>
 
+    <name>FriendlyId Core</name>
+    <description>Core library for converting UUIDs to URL-friendly Base62-encoded IDs</description>
+
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.vavr</groupId>
-            <artifactId>vavr-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -2,10 +2,12 @@ package com.devskiller.friendly_id.sample.hateos;
 
 import com.devskiller.friendly_id.sample.hateos.domain.Bar;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilderFactory;
+import org.springframework.stereotype.Component;
 
-import static com.devskiller.friendly_id.FriendlyId.toFriendlyId;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Component
 public class BarResourceAssembler extends RepresentationModelAssemblerSupport<Bar, BarResource> {
 
 	public BarResourceAssembler() {
@@ -14,10 +16,14 @@ public class BarResourceAssembler extends RepresentationModelAssemblerSupport<Ba
 
 	@Override
 	public BarResource toModel(Bar entity) {
-		BarResource resource = new BarResource(entity.getName());
-		WebMvcLinkBuilderFactory factory = new WebMvcLinkBuilderFactory();
-		resource.add(factory.linkTo(FooController.class).withRel("foos"));
-		resource.add(factory.linkTo(BarController.class, toFriendlyId(entity.getFoo().getId())).slash(toFriendlyId(entity.getId())).withSelfRel());
+		BarResource resource = new BarResource(entity.name());
+
+		// Modern Spring HATEOAS 2.x - methodOn() triggers automatic FriendlyId conversion
+		resource.add(linkTo(FooController.class).withRel("foos"));
+		resource.add(linkTo(methodOn(BarController.class)
+				.getBar(entity.foo().id(), entity.id()))
+				.withSelfRel());
+
 		return resource;
 	}
 

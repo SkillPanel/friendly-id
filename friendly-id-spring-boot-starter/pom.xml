@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.devskiller.friendly-id</groupId>
         <artifactId>friendly-id-project</artifactId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>${revision}</version>
         <relativePath>..</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>friendly-id-spring-boot-starter</artifactId>
+
+    <name>FriendlyId Spring Boot Starter</name>
+    <description>Spring Boot starter for FriendlyId - auto-configuration for easy integration</description>
 
     <dependencies>
         <dependency>
             <groupId>com.devskiller.friendly-id</groupId>
             <artifactId>friendly-id-spring-boot</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.devskiller.friendly-id</groupId>
+            <artifactId>friendly-id-jackson-datatype</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

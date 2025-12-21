@@ -1,28 +1,23 @@
 package com.devskiller.friendly_id.sample.hateos;
 
 import com.devskiller.friendly_id.sample.hateos.domain.Foo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.util.UUID;
 
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Slf4j
 @RestController
 @ExposesResourceFor(FooResource.class)
 @RequestMapping("/foos")
 public class FooController {
-
-	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private final FooResourceAssembler assembler;
 
@@ -48,18 +43,14 @@ public class FooController {
 
 	@PostMapping
 	public HttpEntity<FooResource> create(@RequestBody FooResource fooResource) {
-		HttpHeaders headers = new HttpHeaders();
-		Foo entity = new Foo(fooResource.getUuid(), "Foo");
+		log.info("Create {}", fooResource.getUuid());
 
-		// ...
-		URI location = MvcUriComponentsBuilder.fromMethodCall(on(getClass())
+		// Modern Spring HATEOAS 2.x - methodOn() triggers Spring's FriendlyId conversion
+		URI location = linkTo(methodOn(FooController.class)
 				.get(fooResource.getUuid()))
-				.buildAndExpand()
 				.toUri();
 
-		headers.setLocation(location);
-
-		return new ResponseEntity<>(headers, HttpStatus.CREATED);
+		return ResponseEntity.created(location).build();
 	}
 
 }

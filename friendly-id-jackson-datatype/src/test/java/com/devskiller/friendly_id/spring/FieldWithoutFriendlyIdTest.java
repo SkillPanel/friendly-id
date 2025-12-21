@@ -2,69 +2,63 @@ package com.devskiller.friendly_id.spring;
 
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import org.junit.Test;
-
-import com.devskiller.friendly_id.FriendlyId;
+import tools.jackson.databind.json.JsonMapper;
+import org.junit.jupiter.api.Test;
 
 import static com.devskiller.friendly_id.spring.ObjectMapperConfiguration.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FieldWithoutFriendlyIdTest {
+class FieldWithoutFriendlyIdTest {
 
-	private UUID uuid = UUID.fromString("f088ce5b-9279-4cc3-946a-c15ad740dd6d");
-	private ObjectMapper mapper = mapper();
+	private final UUID uuid = UUID.fromString("f088ce5b-9279-4cc3-946a-c15ad740dd6d");
+	private JsonMapper jsonMapper = mapper();
 
 	@Test
-	public void shouldAllowToDoNotCodeUuidInDataObject() throws Exception {
-		Foo foo = new Foo();
-		foo.setRawUuid(uuid);
-		foo.setFriendlyId(uuid);
+	void shouldAllowToDoNotCodeUuidInDataObject() {
+		var foo = new Foo(uuid, uuid);
 
-		String json = mapper.writeValueAsString(foo);
+		var json = jsonMapper.writeValueAsString(foo);
 
-		assertThat(json).isEqualToIgnoringWhitespace(
-				"{\"rawUuid\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\",\"friendlyId\":\"7Jsg6CPDscHawyJfE70b9x\"}"
-		);
+		// JSON field order may vary, so check each field separately
+		assertThat(json).contains("\"rawUuid\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\"");
+		assertThat(json).contains("\"friendlyId\":\"7Jsg6CPDscHawyJfE70b9x\"");
 
-		Foo cloned = mapper.readValue(json, Foo.class);
-		assertThat(cloned.getRawUuid()).isEqualTo(foo.getFriendlyId());
+		var cloned = jsonMapper.readValue(json, Foo.class);
+		assertThat(cloned.rawUuid()).isEqualTo(foo.friendlyId());
 	}
 
 	@Test
-	public void shouldDeserializeUuidsInDataObject() throws Exception {
-		String json = "{\"rawUuid\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\",\"friendlyId\":\"7Jsg6CPDscHawyJfE70b9x\"}";
+	void shouldDeserializeUuidsInDataObject() {
+		var json = """
+				{"rawUuid":"f088ce5b-9279-4cc3-946a-c15ad740dd6d","friendlyId":"7Jsg6CPDscHawyJfE70b9x"}""";
 
-		Foo cloned = mapper.readValue(json, Foo.class);
-		assertThat(cloned.getRawUuid()).isEqualTo(uuid);
-		assertThat(cloned.getFriendlyId()).isEqualTo(uuid);
-	}
-
-
-	@Test
-	public void shouldSerializeUuidsInValueObject() throws Exception {
-		mapper = mapper(new ParameterNamesModule());
-
-		Bar bar = new Bar(uuid, uuid);
-
-		String json = mapper.writeValueAsString(bar);
-
-		assertThat(json).isEqualToIgnoringWhitespace(
-				"{\"rawUuid\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\",\"friendlyId\":\"7Jsg6CPDscHawyJfE70b9x\"}"
-		);
+		var cloned = jsonMapper.readValue(json, Foo.class);
+		assertThat(cloned.rawUuid()).isEqualTo(uuid);
+		assertThat(cloned.friendlyId()).isEqualTo(uuid);
 	}
 
 	@Test
-	public void shouldDeserializeUuuidsValueObject() throws Exception {
-		mapper = mapper(new ParameterNamesModule());
+	void shouldSerializeUuidsInValueObject() {
+		jsonMapper = mapper();
 
-		String json = "{\"rawUuid\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\",\"friendlyId\":\"7Jsg6CPDscHawyJfE70b9x\"}";
+		var bar = new Bar(uuid, uuid);
 
-		Bar deserialized = mapper.readValue(json, Bar.class);
+		var json = jsonMapper.writeValueAsString(bar);
 
-		assertThat(deserialized.getRawUuid()).isEqualTo(uuid);
-		assertThat(deserialized.getFriendlyId()).isEqualTo(uuid);
+		assertThat(json).isEqualToIgnoringWhitespace("""
+				{"rawUuid":"f088ce5b-9279-4cc3-946a-c15ad740dd6d","friendlyId":"7Jsg6CPDscHawyJfE70b9x"}""");
 	}
 
+	@Test
+	void shouldDeserializeUuidsInValueObject() {
+		jsonMapper = mapper();
+
+		var json = """
+				{"rawUuid":"f088ce5b-9279-4cc3-946a-c15ad740dd6d","friendlyId":"7Jsg6CPDscHawyJfE70b9x"}""";
+
+		var deserialized = jsonMapper.readValue(json, Bar.class);
+
+		assertThat(deserialized.rawUuid()).isEqualTo(uuid);
+		assertThat(deserialized.friendlyId()).isEqualTo(uuid);
+	}
 }

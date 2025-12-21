@@ -1,21 +1,21 @@
 package com.devskiller.friendly_id;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AnalyzeGeneratedIdsTest {
+class AnalyzeGeneratedIdsTest {
 
 	private List<String> ids = new ArrayList<>();
 
 	@Test
-	public void analyzeGeneratedValueStatistics() {
+	void analyzeGeneratedValueStatistics() {
 		for (int i = 0; i < 100_000; i++) {
 			this.ids.add(Base62.encode(UuidConverter.toBigInteger(UUID.randomUUID())));
 		}

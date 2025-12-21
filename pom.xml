@@ -6,7 +6,7 @@
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-project</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>${revision}</version>
 
     <name>friendly id</name>
     <description>Library to convert uuid to url friendly IDs basing on base62</description>
@@ -15,17 +15,26 @@
     <modules>
         <module>friendly-id</module>
         <module>friendly-id-jackson-datatype</module>
+        <module>friendly-id-jackson2-datatype</module>
+        <module>friendly-id-jooq</module>
+        <module>friendly-id-jpa</module>
+        <module>friendly-id-openfeign</module>
         <module>friendly-id-spring-boot</module>
         <module>friendly-id-spring-boot-starter</module>
         <module>friendly-id-samples</module>
     </modules>
 
     <properties>
+        <!-- CI-friendly version properties -->
+        <revision>2.0.0-SNAPSHOT</revision>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <spring-boot.version>4.0.1</spring-boot.version>
+        <spring-cloud.version>2025.0.0</spring-cloud.version>
+        <jooq.version>3.20.1</jooq.version>
     </properties>
 
     <licenses>
@@ -39,7 +48,7 @@
 
     <developers>
         <developer>
-            <name>Mariusz Smykula</name>
+            <name>Mariusz S</name>
             <email>mariuszs@gmail.com</email>
             <organization>Devskiller</organization>
         </developer>
@@ -53,16 +62,16 @@
     </scm>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>oss</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>oss</id>
-            <name>Nexus Release Repository</name>
-            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://central.sonatype.com/api/v1/publisher</url>
         </repository>
+        <snapshotRepository>
+            <id>central</id>
+            <name>Central Repository Snapshots</name>
+            <url>https://central.sonatype.com/api/v1/publisher</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <issueManagement>
@@ -71,8 +80,8 @@
     </issueManagement>
 
     <ciManagement>
-        <system>Travis</system>
-        <url>https://travis-ci.org/Devskiller/friendly-id</url>
+        <system>GitHub Actions</system>
+        <url>https://github.com/SkillPanel/friendly-id/actions</url>
     </ciManagement>
 
     <dependencyManagement>
@@ -85,16 +94,27 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.persistence</groupId>
+                <artifactId>jakarta.persistence-api</artifactId>
+                <version>3.1.0</version>
+            </dependency>
+            <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
-                <version>3.12.0</version>
+                <version>3.27.3</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>io.vavr</groupId>
-                <artifactId>vavr-test</artifactId>
-                <version>0.10.0</version>
-                <scope>test</scope>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -105,20 +125,20 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.14.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.2</version>
+                    <version>3.5.4</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>2.5.2</version>
+                    <version>3.1.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
+                    <version>3.1.1</version>
                     <configuration>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <pushChanges>false</pushChanges>
@@ -130,7 +150,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
-                    <version>1.1.0</version>
+                    <version>1.6.0</version>
                     <configuration>
                         <outputDirectory>${project.build.directory}</outputDirectory>
                         <updatePomFile>true</updatePomFile>
@@ -156,12 +176,17 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.5</version>
+                    <version>0.8.12</version>
                 </plugin>
                 <plugin>
                     <groupId>org.eluder.coveralls</groupId>
                     <artifactId>coveralls-maven-plugin</artifactId>
                     <version>4.3.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>0.9.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -198,7 +223,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>3.2.8</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -212,7 +237,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.2.1</version>
+                        <version>3.3.1</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -225,7 +250,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.1.1</version>
+                        <version>3.10.1</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -236,14 +261,14 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.9.0</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>sonatype-nexus-staging</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                            <waitUntil>published</waitUntil>
                         </configuration>
                     </plugin>
                     <plugin>

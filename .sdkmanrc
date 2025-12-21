@@ -1,0 +1,5 @@
+# SDKMAN configuration for friendly-id project
+# Auto-switch to this Java version when entering the directory
+# Usage: Enable auto-env in SDKMAN with: sdk config
+#        Set sdkman_auto_env=true
+java=21.0.8-tem

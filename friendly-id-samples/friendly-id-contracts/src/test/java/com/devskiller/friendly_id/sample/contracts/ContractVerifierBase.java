@@ -1,27 +1,28 @@
 package com.devskiller.friendly_id.sample.contracts;
 
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
-import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.devskiller.friendly_id.spring.EnableFriendlyId;
 
-@RunWith(SpringRunner.class)
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+
 @WebMvcTest
 @EnableFriendlyId
+@Import(SecurityConfig.class)
 public abstract class ContractVerifierBase {
 
 	@Autowired
 	private WebApplicationContext context;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
-		RestAssuredMockMvc.webAppContextSetup(context);
+		RestAssuredMockMvc.webAppContextSetup(context, springSecurity());
 	}
 
 }
