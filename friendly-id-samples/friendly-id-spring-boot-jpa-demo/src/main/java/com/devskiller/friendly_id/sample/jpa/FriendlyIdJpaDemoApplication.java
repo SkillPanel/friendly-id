@@ -73,23 +73,23 @@ public class FriendlyIdJpaDemoApplication {
 			repository.save(keyboard);
 			System.out.println("Created product: Mechanical Keyboard with ID: " + keyboard.getId());
 
-			System.out.println("""
-
+			System.out.printf("""
+					
 					========================================
 					Demo ready!
 					========================================
 					REST API: http://localhost:8080/api/products
 					H2 Console: http://localhost:8080/h2-console
-					  JDBC URL: jdbc:h2:mem:friendlyid_demo
-					  Username: sa
-					  Password: (empty)
+					JDBC URL: jdbc:h2:mem:friendlyid_demo
+					Username: sa
+					Password: (empty)
 					========================================
-
+					
 					Try these commands:
-					  curl http://localhost:8080/api/products
-					  curl http://localhost:8080/api/products/%s
-
-					""".formatted(laptop.getId()));
+					curl http://localhost:8080/api/products
+					curl http://localhost:8080/api/products/%s
+					
+					%n""", laptop.getId());
 		};
 	}
 }

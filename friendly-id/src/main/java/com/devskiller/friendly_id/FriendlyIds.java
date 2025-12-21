@@ -1,5 +1,6 @@
 package com.devskiller.friendly_id;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -42,10 +43,12 @@ public final class FriendlyIds {
 	/**
 	 * Encodes a UUID to FriendlyId string.
 	 *
-	 * @param uuid UUID to be encoded
+	 * @param uuid UUID to be encoded, must not be null
 	 * @return FriendlyId encoded UUID
+	 * @throws NullPointerException if uuid is null
 	 */
 	public static String toFriendlyId(UUID uuid) {
+		Objects.requireNonNull(uuid, "UUID cannot be null");
 		return Url62.encode(uuid);
 	}
 
@@ -58,11 +61,13 @@ public final class FriendlyIds {
 	 *   <li>FriendlyId format (up to 22 chars): decoded from Base62</li>
 	 * </ul>
 	 *
-	 * @param value UUID or FriendlyId string
+	 * @param value UUID or FriendlyId string, must not be null
 	 * @return parsed UUID
+	 * @throws NullPointerException if value is null
 	 * @throws IllegalArgumentException if value is not a valid UUID or FriendlyId
 	 */
 	public static UUID toUuid(String value) {
+		Objects.requireNonNull(value, "Value cannot be null");
 		if (isStandardUuidFormat(value)) {
 			return UUID.fromString(value);
 		}

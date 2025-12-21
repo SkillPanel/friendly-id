@@ -21,9 +21,8 @@ class FriendlyIdEncoderTest {
 		String expectedFriendlyId = toFriendlyId(uuid);
 
 		String[] capturedValue = new String[1];
-		Encoder delegateEncoder = (object, bodyType, template) -> {
-			capturedValue[0] = (String) object;
-		};
+		Encoder delegateEncoder = (object, bodyType, template)
+				-> capturedValue[0] = (String) object;
 		FriendlyIdEncoder encoder = new FriendlyIdEncoder(delegateEncoder);
 		RequestTemplate template = new RequestTemplate();
 
@@ -42,9 +41,8 @@ class FriendlyIdEncoderTest {
 		String expectedString = friendlyId.toString();
 
 		String[] capturedValue = new String[1];
-		Encoder delegateEncoder = (object, bodyType, template) -> {
-			capturedValue[0] = (String) object;
-		};
+		Encoder delegateEncoder = (object, bodyType, template)
+				-> capturedValue[0] = (String) object;
 		FriendlyIdEncoder encoder = new FriendlyIdEncoder(delegateEncoder);
 		RequestTemplate template = new RequestTemplate();
 
@@ -61,9 +59,8 @@ class FriendlyIdEncoderTest {
 		String regularString = "test";
 		
 		String[] capturedValue = new String[1];
-		Encoder delegateEncoder = (object, bodyType, template) -> {
-			capturedValue[0] = (String) object;
-		};
+		Encoder delegateEncoder = (object, bodyType, template)
+				-> capturedValue[0] = (String) object;
 		FriendlyIdEncoder encoder = new FriendlyIdEncoder(delegateEncoder);
 		RequestTemplate template = new RequestTemplate();
 
