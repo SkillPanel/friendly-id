@@ -9,7 +9,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.devskiller.friendly_id.FriendlyId;
-import com.devskiller.friendly_id.jackson.FriendlyIdModule;
+import com.devskiller.friendly_id.jackson2.FriendlyIdModule;
 
 @Configuration
 public class FriendlyIdConfig implements WebMvcConfigurer {

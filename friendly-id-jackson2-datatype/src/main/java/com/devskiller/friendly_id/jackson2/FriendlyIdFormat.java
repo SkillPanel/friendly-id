@@ -1,4 +1,4 @@
-package com.devskiller.friendly_id.jackson;
+package com.devskiller.friendly_id.jackson2;
 
 /**
  * Friendly ID format

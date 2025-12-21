@@ -3,7 +3,7 @@ package com.devskiller.friendly_id.spring;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.devskiller.friendly_id.jackson.FriendlyIdModule;
+import com.devskiller.friendly_id.jackson2.FriendlyIdModule;
 
 public class ObjectMapperConfiguration {
 

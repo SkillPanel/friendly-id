@@ -1,4 +1,4 @@
-package com.devskiller.friendly_id.jackson;
+package com.devskiller.friendly_id.jackson2;
 
 import java.io.IOException;
 import java.util.UUID;
