@@ -16,6 +16,7 @@
 
     <modules>
         <module>friendly-id-spring-boot-simple</module>
+        <module>friendly-id-spring-boot3-simple</module>
         <module>friendly-id-spring-boot-customized</module>
         <module>friendly-id-spring-boot-hateos</module>
         <module>friendly-id-spring-boot-jpa-demo</module>
