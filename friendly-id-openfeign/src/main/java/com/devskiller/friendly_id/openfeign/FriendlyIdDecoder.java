@@ -4,15 +4,13 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.UUID;
 
-import com.devskiller.friendly_id.FriendlyIds;
-import com.devskiller.friendly_id.type.FriendlyId;
-
 import feign.FeignException;
 import feign.Response;
 import feign.codec.DecodeException;
 import feign.codec.Decoder;
 
-import static com.devskiller.friendly_id.type.FriendlyId.parse;
+import com.devskiller.friendly_id.FriendlyIds;
+import com.devskiller.friendly_id.type.FriendlyId;
 
 /**
  * Feign decoder that converts FriendlyId strings to UUID and FriendlyId objects in responses.

@@ -2,13 +2,13 @@ package com.devskiller.friendly_id.jackson2;
 
 import java.util.UUID;
 
-import com.devskiller.friendly_id.FriendlyIdFormat;
-import com.devskiller.friendly_id.IdFormat;
 import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
 import com.fasterxml.jackson.databind.introspect.Annotated;
 import com.fasterxml.jackson.databind.introspect.AnnotatedMethod;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
+
+import com.devskiller.friendly_id.IdFormat;
 
 public class FriendlyIdAnnotationIntrospector extends JacksonAnnotationIntrospector {
 

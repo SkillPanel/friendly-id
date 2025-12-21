@@ -40,7 +40,7 @@
     <licenses>
         <license>
             <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
             <comments>A business-friendly OSS license</comments>
         </license>
@@ -150,7 +150,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
-                    <version>1.6.0</version>
+                    <version>1.7.0</version>
                     <configuration>
                         <outputDirectory>${project.build.directory}</outputDirectory>
                         <updatePomFile>true</updatePomFile>
