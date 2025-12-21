@@ -5,11 +5,14 @@
     <parent>
         <artifactId>friendly-id-project</artifactId>
         <groupId>com.devskiller.friendly-id</groupId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>${revision}</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>friendly-id-jackson-datatype</artifactId>
+
+    <name>FriendlyId Jackson Datatype</name>
+    <description>Jackson module for JSON serialization/deserialization of UUIDs as FriendlyIds</description>
 
     <dependencies>
         <dependency>
@@ -17,26 +20,24 @@
             <artifactId>friendly-id</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- Jackson 3: annotations stays in com.fasterxml.jackson.core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
         </dependency>
+        <!-- Jackson 3: core and databind move to tools.jackson -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-parameter-names</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -49,8 +50,8 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
                 <configuration>
                     <parameters>true</parameters>
                 </configuration>

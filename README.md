@@ -111,7 +111,7 @@ Dependencies
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id</artifactId>
-    <version>1.1.0</version>
+    <version>2.0.0-alpha6</version>
 </dependency>
 ```
 
@@ -147,9 +147,11 @@ Notes
 
 ## Integrations
 
-
 - [Spring Boot integration](#Spring-Boot-integration)
-- [Jackson integration ](#Jackson-integration)
+- [Jackson integration](#Jackson-integration)
+- [jOOQ integration](#jOOQ-integration)
+- [JPA integration](#JPA-integration)
+- [OpenFeign integration](#OpenFeign-integration)
 
 ### Spring Boot integration
 
@@ -159,7 +161,7 @@ The FriendlyID library includes a Spring configuration to make it easy to add sh
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-spring-boot-starter</artifactId>
-    <version>1.1.0</version>
+    <version>2.0.0-alpha6</version>
 </dependency>
 ```
     
@@ -203,7 +205,7 @@ First, add the following Jackson module dependency:
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-jackson-datatype</artifactId>
-    <version>1.1.0</version>
+    <version>2.0.0-alpha6</version>
 </dependency>
 ```
 Then register the `FriendlyIdModule` module as follows:
@@ -212,6 +214,89 @@ Then register the `FriendlyIdModule` module as follows:
 ObjectMapper mapper = new ObjectMapper()
    .registerModule(new FriendlyIdModule());
 ```
+
+### jOOQ integration
+
+The FriendlyID library provides a jOOQ converter for seamless integration with jOOQ's code generation and type-safe queries.
+
+First, add the dependency:
+```xml
+<dependency>
+    <groupId>com.devskiller.friendly-id</groupId>
+    <artifactId>friendly-id-jooq</artifactId>
+    <version>2.0.0-alpha6</version>
+</dependency>
+```
+
+Configure the converter in your jOOQ code generation configuration:
+```xml
+<forcedTypes>
+    <forcedType>
+        <userType>com.devskiller.friendly_id.type.FriendlyId</userType>
+        <converter>com.devskiller.friendly_id.jooq.FriendlyIdConverter</converter>
+        <includeExpression>.*\.id</includeExpression>
+        <includeTypes>UUID</includeTypes>
+    </forcedType>
+</forcedTypes>
+```
+
+This automatically converts UUID database columns to `FriendlyId` value objects in your generated jOOQ records.
+
+### JPA integration
+
+The FriendlyID library includes a JPA `AttributeConverter` for transparent conversion between UUID database columns and `FriendlyId` value objects.
+
+First, add the dependency:
+```xml
+<dependency>
+    <groupId>com.devskiller.friendly-id</groupId>
+    <artifactId>friendly-id-jpa</artifactId>
+    <version>2.0.0-alpha6</version>
+</dependency>
+```
+
+The converter is automatically applied to all `FriendlyId` attributes in your entities:
+```java
+@Entity
+public class User {
+    @Id
+    private FriendlyId id;
+    
+    private String name;
+    
+    // getters/setters
+}
+```
+
+The `FriendlyId` value object stores UUID internally (16 bytes) and computes the FriendlyId string only when needed, making it more memory-efficient than storing strings.
+
+### OpenFeign integration
+
+The FriendlyID library provides automatic encoding/decoding for Spring Cloud OpenFeign clients.
+
+First, add the dependency:
+```xml
+<dependency>
+    <groupId>com.devskiller.friendly-id</groupId>
+    <artifactId>friendly-id-openfeign</artifactId>
+    <version>2.0.0-alpha6</version>
+</dependency>
+```
+
+The integration is automatically configured when Spring Cloud OpenFeign is on the classpath:
+```java
+@FeignClient(name = "user-service")
+public interface UserClient {
+    
+    @GetMapping("/users/{id}")
+    UserDto getUser(@PathVariable UUID id); // Sends FriendlyId string
+    
+    @GetMapping("/users/{id}/profile")
+    ProfileDto getProfile(@PathVariable FriendlyId id); // Also works with FriendlyId value object
+}
+```
+
+UUID and `FriendlyId` parameters are automatically converted to FriendlyId strings in requests, and FriendlyId strings in responses are converted back to UUID or `FriendlyId` objects.
 
 Contributing
 ----------

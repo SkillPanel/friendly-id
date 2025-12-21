@@ -1,16 +1,18 @@
 package com.devskiller.friendly_id.spring;
 
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JacksonModule;
+import tools.jackson.databind.json.JsonMapper;
 
 import com.devskiller.friendly_id.jackson.FriendlyIdModule;
 
 public class ObjectMapperConfiguration {
 
-	protected static ObjectMapper mapper(Module... modules) {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new FriendlyIdModule());
-		mapper.registerModules(modules);
-		return mapper;
+	protected static JsonMapper mapper(JacksonModule... modules) {
+		JsonMapper.Builder builder = JsonMapper.builder()
+				.addModule(new FriendlyIdModule());
+		for (JacksonModule module : modules) {
+			builder.addModule(module);
+		}
+		return builder.build();
 	}
 }

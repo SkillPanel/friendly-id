@@ -4,30 +4,39 @@ import com.devskiller.friendly_id.sample.hateos.domain.Bar;
 import com.devskiller.friendly_id.sample.hateos.domain.Foo;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilderFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static com.devskiller.friendly_id.FriendlyId.toFriendlyId;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Component
 public class FooResourceAssembler extends RepresentationModelAssemblerSupport<Foo, FooResource> {
 
-	public FooResourceAssembler() {
+	private final BarResourceAssembler barResourceAssembler;
+
+	public FooResourceAssembler(BarResourceAssembler barResourceAssembler) {
 		super(FooController.class, FooResource.class);
+		this.barResourceAssembler = barResourceAssembler;
 	}
 
 	@Override
 	public FooResource toModel(Foo entity) {
-		BarResourceAssembler barResourceAssembler = new BarResourceAssembler();
-		List<Bar> bars = Arrays.asList(new Bar(UUID.randomUUID(), "bar one", entity),
-				new Bar(UUID.randomUUID(), "bar two", entity));
+		List<Bar> bars = Arrays.asList(
+				new Bar(UUID.randomUUID(), "bar one", entity),
+				new Bar(UUID.randomUUID(), "bar two", entity)
+		);
 		CollectionModel<BarResource> barResources = barResourceAssembler.toCollectionModel(bars);
-		WebMvcLinkBuilderFactory factory = new WebMvcLinkBuilderFactory();
-		FooResource resource = new FooResource(entity.getId(), entity.getName(), barResources);
+		FooResource resource = new FooResource(entity.id(), entity.name(), barResources);
 
-		resource.add(factory.linkTo(FooController.class).slash(toFriendlyId(entity.getId())).withSelfRel());
+		// Modern Spring HATEOAS 2.x - methodOn() triggers automatic FriendlyId conversion
+		resource.add(linkTo(methodOn(FooController.class)
+				.get(entity.id()))
+				.withSelfRel());
+
 		return resource;
 	}
 }
