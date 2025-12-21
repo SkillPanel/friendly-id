@@ -9,9 +9,10 @@ import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.ValueDeserializer;
 import tools.jackson.databind.deser.std.StdDeserializer;
 
-import com.devskiller.friendly_id.FriendlyId;
 import com.devskiller.friendly_id.FriendlyIdFormat;
 import com.devskiller.friendly_id.IdFormat;
+
+import static com.devskiller.friendly_id.type.FriendlyId.parse;
 
 public class FriendlyIdDeserializer extends StdDeserializer<UUID> {
 
@@ -32,34 +33,12 @@ public class FriendlyIdDeserializer extends StdDeserializer<UUID> {
 		if (token == JsonToken.VALUE_STRING) {
 			var value = parser.getString().trim();
 			if (useFriendlyFormat) {
-				return parseAsUuidOrFriendlyId(value);
+				return parse(value).toUuid();
 			} else {
 				return UUID.fromString(value);
 			}
 		}
 		throw ctxt.weirdStringException(parser.getString(), UUID.class, "Expected UUID string value");
-	}
-
-	/**
-	 * Attempts to parse the value as a standard UUID first, then falls back to FriendlyId format.
-	 * This approach is more robust than heuristic-based detection.
-	 */
-	private UUID parseAsUuidOrFriendlyId(String value) {
-		if (isStandardUuidFormat(value)) {
-			return UUID.fromString(value);
-		}
-		return FriendlyId.toUuid(value);
-	}
-
-	/**
-	 * Checks if the string matches standard UUID format (36 chars with hyphens at positions 8, 13, 18, 23).
-	 */
-	private boolean isStandardUuidFormat(String value) {
-		return value.length() == 36
-				&& value.charAt(8) == '-'
-				&& value.charAt(13) == '-'
-				&& value.charAt(18) == '-'
-				&& value.charAt(23) == '-';
 	}
 
 	@Override

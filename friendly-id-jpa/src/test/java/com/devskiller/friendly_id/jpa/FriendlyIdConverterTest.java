@@ -15,7 +15,7 @@ class FriendlyIdConverterTest {
 	@Test
 	void shouldConvertFriendlyIdToUuid() {
 		// given
-		FriendlyId friendlyId = FriendlyId.fromString("5wbwf6yUxVBcr48AMbz9cb");
+		FriendlyId friendlyId = FriendlyId.parse("5wbwf6yUxVBcr48AMbz9cb");
 
 		// when
 		UUID uuid = converter.convertToDatabaseColumn(friendlyId);

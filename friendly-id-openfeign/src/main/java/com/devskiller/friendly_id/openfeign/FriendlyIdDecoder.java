@@ -11,6 +11,8 @@ import feign.Response;
 import feign.codec.DecodeException;
 import feign.codec.Decoder;
 
+import static com.devskiller.friendly_id.type.FriendlyId.parse;
+
 /**
  * Feign decoder that converts FriendlyId strings to UUID and FriendlyId objects in responses.
  * <p>
@@ -45,7 +47,7 @@ public class FriendlyIdDecoder implements Decoder {
 		}
 
 		if (type == com.devskiller.friendly_id.type.FriendlyId.class && decoded instanceof String stringValue) {
-			return com.devskiller.friendly_id.type.FriendlyId.fromString(stringValue);
+			return parse(stringValue);
 		}
 
 		return decoded;

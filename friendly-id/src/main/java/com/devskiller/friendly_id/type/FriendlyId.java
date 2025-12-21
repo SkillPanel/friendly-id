@@ -39,19 +39,23 @@ import java.util.UUID;
  * FriendlyId id = FriendlyId.of(uuid);
  *
  * // Create from String
- * FriendlyId id = FriendlyId.fromString("5wbwf6yUxVBcr48AMbz9cb");
+ * FriendlyId id = FriendlyId.parse("5wbwf6yUxVBcr48AMbz9cb");
  *
  * // Create random
  * FriendlyId id = FriendlyId.random();
  *
- * // Get UUID
- * UUID uuid = id.uuid();
+ * // Static import friendly
+ * import static com.devskiller.friendly_id.type.FriendlyId.friendlyId;
+ * FriendlyId id = friendlyId(uuid);
  *
- * // Get FriendlyId string (computed on demand)
- * String friendlyIdString = id.toString();
+ * // Get UUID
+ * UUID uuid = id.toUuid();
+ *
+ * // Get FriendlyId string
+ * String friendlyIdString = id.value();
  * }</pre>
  *
- * @since 1.1.1
+ * @since 2.0
  */
 public final class FriendlyId implements Serializable, Comparable<FriendlyId> {
 
@@ -75,16 +79,50 @@ public final class FriendlyId implements Serializable, Comparable<FriendlyId> {
 	}
 
 	/**
-	 * Creates a FriendlyId from a FriendlyId string representation.
+	 * Creates a FriendlyId from a UUID.
+	 * <p>
+	 * This method is designed for static imports:
+	 * <pre>{@code
+	 * import static com.devskiller.friendly_id.type.FriendlyId.friendlyId;
+	 * FriendlyId id = friendlyId(uuid);
+	 * }</pre>
 	 *
-	 * @param friendlyId the FriendlyId string to decode, must not be null
+	 * @param uuid the UUID to wrap, must not be null
 	 * @return a new FriendlyId instance
-	 * @throws NullPointerException if friendlyId is null
-	 * @throws IllegalArgumentException if friendlyId is not a valid FriendlyId
+	 * @throws NullPointerException if uuid is null
 	 */
-	public static FriendlyId fromString(String friendlyId) {
-		Objects.requireNonNull(friendlyId, "FriendlyId string cannot be null");
-		return new FriendlyId(com.devskiller.friendly_id.FriendlyId.toUuid(friendlyId));
+	public static FriendlyId friendlyId(UUID uuid) {
+		return new FriendlyId(uuid);
+	}
+
+	/**
+	 * Parses a string representation to FriendlyId.
+	 * <p>
+	 * Accepts both FriendlyId format (e.g., "5wbwf6yUxVBcr48AMbz9cb") and
+	 * standard UUID format (e.g., "c3587ec5-0976-497f-8374-61e0c2ea3da5").
+	 *
+	 * @param value the FriendlyId or UUID string to parse, must not be null
+	 * @return a new FriendlyId instance
+	 * @throws NullPointerException if value is null
+	 * @throws IllegalArgumentException if value is not a valid FriendlyId or UUID
+	 */
+	public static FriendlyId parse(String value) {
+		Objects.requireNonNull(value, "Value cannot be null");
+		if (isStandardUuidFormat(value)) {
+			return new FriendlyId(UUID.fromString(value));
+		}
+		return new FriendlyId(com.devskiller.friendly_id.FriendlyId.toUuid(value));
+	}
+
+	/**
+	 * Checks if the string matches standard UUID format (36 chars with hyphens).
+	 */
+	private static boolean isStandardUuidFormat(String value) {
+		return value.length() == 36
+				&& value.charAt(8) == '-'
+				&& value.charAt(13) == '-'
+				&& value.charAt(18) == '-'
+				&& value.charAt(23) == '-';
 	}
 
 	/**
@@ -101,8 +139,30 @@ public final class FriendlyId implements Serializable, Comparable<FriendlyId> {
 	 *
 	 * @return the UUID
 	 */
+	public UUID toUuid() {
+		return uuid;
+	}
+
+	/**
+	 * Returns the underlying UUID.
+	 * <p>
+	 * This is an alias for {@link #toUuid()} following record-style naming.
+	 *
+	 * @return the UUID
+	 */
 	public UUID uuid() {
 		return uuid;
+	}
+
+	/**
+	 * Returns the FriendlyId string representation.
+	 * <p>
+	 * The string is computed on demand from the internal UUID.
+	 *
+	 * @return the FriendlyId string
+	 */
+	public String value() {
+		return com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid);
 	}
 
 	/**
@@ -115,7 +175,7 @@ public final class FriendlyId implements Serializable, Comparable<FriendlyId> {
 	 */
 	@Override
 	public String toString() {
-		return com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid);
+		return value();
 	}
 
 	@Override

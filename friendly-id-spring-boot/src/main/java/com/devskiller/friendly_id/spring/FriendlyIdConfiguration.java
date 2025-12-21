@@ -34,7 +34,7 @@ public class FriendlyIdConfiguration implements WebMvcConfigurer {
 		registry.addConverter(String.class, UUID.class, id -> toUuid(id));
 		registry.addConverter(UUID.class, String.class, id -> toFriendlyId(id));
 		registry.addConverter(String.class, com.devskiller.friendly_id.type.FriendlyId.class,
-				com.devskiller.friendly_id.type.FriendlyId::fromString);
+				com.devskiller.friendly_id.type.FriendlyId::parse);
 		registry.addConverter(com.devskiller.friendly_id.type.FriendlyId.class, String.class,
 				com.devskiller.friendly_id.type.FriendlyId::toString);
 	}

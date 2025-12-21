@@ -17,6 +17,6 @@ public class FriendlyIdValueDeserializer extends JsonDeserializer<FriendlyId> {
 	@Override
 	public FriendlyId deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
 		String friendlyIdString = p.getValueAsString();
-		return FriendlyId.fromString(friendlyIdString);
+		return FriendlyId.parse(friendlyIdString);
 	}
 }

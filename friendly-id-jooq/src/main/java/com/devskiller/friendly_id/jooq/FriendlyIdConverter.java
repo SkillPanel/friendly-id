@@ -44,7 +44,7 @@ import com.devskiller.friendly_id.type.FriendlyId;
  * <h2>Manual Usage Example</h2>
  * <pre>{@code
  * // Query using FriendlyId
- * FriendlyId friendlyId = FriendlyId.fromString("5wbwf6yUxVBcr48AMbz9cb");
+ * FriendlyId friendlyId = FriendlyId.parse("5wbwf6yUxVBcr48AMbz9cb");
  * UserRecord user = create
  *     .selectFrom(USER)
  *     .where(USER.ID.eq(friendlyId))
