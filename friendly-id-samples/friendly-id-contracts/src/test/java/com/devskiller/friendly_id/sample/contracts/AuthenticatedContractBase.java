@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.devskiller.friendly_id.spring.EnableFriendlyId;
@@ -14,8 +15,9 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 
 @WebMvcTest
 @EnableFriendlyId
+@WithMockUser(username = "admin", roles = "ADMIN")
 @Import(SecurityConfig.class)
-public abstract class ContractVerifierBase {
+public abstract class AuthenticatedContractBase {
 
 	@Autowired
 	private WebApplicationContext context;
