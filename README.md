@@ -111,7 +111,7 @@ Dependencies
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id</artifactId>
-    <version>2.0.0-alpha6</version>
+    <version>2.0.0-beta1</version>
 </dependency>
 ```
 
@@ -161,7 +161,7 @@ The FriendlyID library includes a Spring configuration to make it easy to add sh
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-spring-boot-starter</artifactId>
-    <version>2.0.0-alpha6</version>
+    <version>2.0.0-beta1</version>
 </dependency>
 ```
     
@@ -205,7 +205,7 @@ First, add the following Jackson module dependency:
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-jackson-datatype</artifactId>
-    <version>2.0.0-alpha6</version>
+    <version>2.0.0-beta1</version>
 </dependency>
 ```
 Then register the `FriendlyIdModule` module as follows:
@@ -224,7 +224,7 @@ First, add the dependency:
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-jooq</artifactId>
-    <version>2.0.0-alpha6</version>
+    <version>2.0.0-beta1</version>
 </dependency>
 ```
 
@@ -251,7 +251,7 @@ First, add the dependency:
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-jpa</artifactId>
-    <version>2.0.0-alpha6</version>
+    <version>2.0.0-beta1</version>
 </dependency>
 ```
 
@@ -279,7 +279,7 @@ First, add the dependency:
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-openfeign</artifactId>
-    <version>2.0.0-alpha6</version>
+    <version>2.0.0-beta1</version>
 </dependency>
 ```
 
@@ -297,6 +297,102 @@ public interface UserClient {
 ```
 
 UUID and `FriendlyId` parameters are automatically converted to FriendlyId strings in requests, and FriendlyId strings in responses are converted back to UUID or `FriendlyId` objects.
+
+## Migration Guide
+
+### Migrating from 1.x to 2.x
+
+Version 2.0 introduces several breaking changes to support Spring Boot 4 and Jackson 3.
+
+#### Requirements
+
+| Version | Java | Spring Boot | Jackson |
+|---------|------|-------------|---------|
+| 1.x     | 8+   | 2.x, 3.x    | 2.x     |
+| 2.x     | 21+  | 4.x         | 3.x     |
+
+#### For Spring Boot 4 + Jackson 3 projects
+
+Update dependencies to use the new version:
+
+```xml
+<dependency>
+    <groupId>com.devskiller.friendly-id</groupId>
+    <artifactId>friendly-id-spring-boot-starter</artifactId>
+    <version>2.0.0-beta1</version>
+</dependency>
+```
+
+#### For Spring Boot 3 + Jackson 2 projects
+
+Use the new Jackson 2.x module:
+
+```xml
+<dependency>
+    <groupId>com.devskiller.friendly-id</groupId>
+    <artifactId>friendly-id-jackson2-datatype</artifactId>
+    <version>2.0.0-beta1</version>
+</dependency>
+```
+
+Register the module:
+```java
+ObjectMapper mapper = new ObjectMapper()
+   .registerModule(new FriendlyIdJackson2Module());
+```
+
+#### @IdFormat annotation
+
+The `@IdFormat` annotation has been moved from the Jackson module to the core module:
+
+```java
+// Before (1.x)
+import com.devskiller.friendly_id.jackson.IdFormat;
+import com.devskiller.friendly_id.jackson.FriendlyIdFormat;
+
+// After (2.x)
+import com.devskiller.friendly_id.IdFormat;
+import com.devskiller.friendly_id.FriendlyIdFormat;
+```
+
+This change allows using the same annotation with both Jackson 2.x and Jackson 3.x modules.
+
+#### FriendlyId value object
+
+Version 2.x introduces the `FriendlyId` value object type for type-safe ID handling:
+
+```java
+import com.devskiller.friendly_id.type.FriendlyId;
+
+// Create from UUID
+FriendlyId id = FriendlyId.of(uuid);
+
+// Create from string
+FriendlyId id = FriendlyId.fromString("5wbwf6yUxVBcr48AMbz9cb");
+
+// Create random
+FriendlyId id = FriendlyId.random();
+
+// Get UUID
+UUID uuid = id.uuid();
+
+// Get string representation
+String friendlyIdString = id.toString();
+```
+
+The value object can be used in:
+- `@PathVariable FriendlyId id`
+- `@RequestParam FriendlyId id`
+- `@RequestBody` with JSON fields
+- JPA entities
+- jOOQ records
+
+#### Jackson module names
+
+| Jackson Version | Module Class | Artifact |
+|-----------------|--------------|----------|
+| Jackson 3.x     | `FriendlyIdModule` | `friendly-id-jackson-datatype` |
+| Jackson 2.x     | `FriendlyIdJackson2Module` | `friendly-id-jackson2-datatype` |
 
 Contributing
 ----------
