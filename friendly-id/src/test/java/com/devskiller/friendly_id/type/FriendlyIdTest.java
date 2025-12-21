@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static com.devskiller.friendly_id.FriendlyIds.toFriendlyId;
 import static com.devskiller.friendly_id.type.FriendlyId.friendlyId;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -55,7 +56,7 @@ class FriendlyIdTest {
 		String result = friendlyId.toString();
 
 		// then
-		assertEquals(com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid), result);
+		assertEquals(toFriendlyId(uuid), result);
 	}
 
 	@Test
@@ -128,7 +129,7 @@ class FriendlyIdTest {
 
 		// when
 		FriendlyId fromUuid = FriendlyId.of(uuid);
-		FriendlyId parsed = FriendlyId.parse(com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid));
+		FriendlyId parsed = FriendlyId.parse(toFriendlyId(uuid));
 
 		// then
 		assertEquals(fromUuid, parsed);
@@ -210,7 +211,7 @@ class FriendlyIdTest {
 
 		// then
 		assertEquals(id.toString(), value);
-		assertEquals(com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid), value);
+		assertEquals(toFriendlyId(uuid), value);
 	}
 
 }
