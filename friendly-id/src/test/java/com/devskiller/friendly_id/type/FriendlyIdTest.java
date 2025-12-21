@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static com.devskiller.friendly_id.type.FriendlyId.friendlyId;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FriendlyIdTest {
@@ -26,7 +27,7 @@ class FriendlyIdTest {
 		String friendlyIdString = "5wbwf6yUxVBcr48AMbz9cb";
 
 		// when
-		FriendlyId friendlyId = FriendlyId.fromString(friendlyIdString);
+		FriendlyId friendlyId = FriendlyId.parse(friendlyIdString);
 
 		// then
 		assertEquals(friendlyIdString, friendlyId.toString());
@@ -102,7 +103,7 @@ class FriendlyIdTest {
 	@Test
 	void shouldThrowExceptionWhenStringIsNull() {
 		// when/then
-		assertThrows(NullPointerException.class, () -> FriendlyId.fromString(null));
+		assertThrows(NullPointerException.class, () -> FriendlyId.parse(null));
 	}
 
 	@Test
@@ -113,7 +114,7 @@ class FriendlyIdTest {
 
 		// when
 		String friendlyIdString = friendlyId.toString();
-		FriendlyId reconstructed = FriendlyId.fromString(friendlyIdString);
+		FriendlyId reconstructed = FriendlyId.parse(friendlyIdString);
 
 		// then
 		assertEquals(friendlyId, reconstructed);
@@ -127,11 +128,89 @@ class FriendlyIdTest {
 
 		// when
 		FriendlyId fromUuid = FriendlyId.of(uuid);
-		FriendlyId fromString = FriendlyId.fromString(com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid));
+		FriendlyId parsed = FriendlyId.parse(com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid));
 
 		// then
-		assertEquals(fromUuid, fromString);
-		assertEquals(fromUuid.hashCode(), fromString.hashCode());
-		assertEquals(fromUuid.toString(), fromString.toString());
+		assertEquals(fromUuid, parsed);
+		assertEquals(fromUuid.hashCode(), parsed.hashCode());
+		assertEquals(fromUuid.toString(), parsed.toString());
 	}
+
+	@Test
+	void shouldParseFriendlyIdString() {
+		// given
+		String friendlyIdString = "5wbwf6yUxVBcr48AMbz9cb";
+
+		// when
+		FriendlyId friendlyId = FriendlyId.parse(friendlyIdString);
+
+		// then
+		assertEquals(friendlyIdString, friendlyId.value());
+	}
+
+	@Test
+	void shouldParseUuidString() {
+		// given
+		UUID uuid = UUID.fromString("c3587ec5-0976-497f-8374-61e0c2ea3da5");
+		String uuidString = uuid.toString();
+
+		// when
+		FriendlyId friendlyId = FriendlyId.parse(uuidString);
+
+		// then
+		assertEquals(uuid, friendlyId.toUuid());
+		assertEquals("5wbwf6yUxVBcr48AMbz9cb", friendlyId.value());
+	}
+
+	@Test
+	void shouldParseBothFormatsToSameResult() {
+		// given
+		String friendlyIdString = "5wbwf6yUxVBcr48AMbz9cb";
+		String uuidString = "c3587ec5-0976-497f-8374-61e0c2ea3da5";
+
+		// when
+		FriendlyId fromFriendlyId = FriendlyId.parse(friendlyIdString);
+		FriendlyId fromUuid = FriendlyId.parse(uuidString);
+
+		// then
+		assertEquals(fromFriendlyId, fromUuid);
+	}
+
+	@Test
+	void shouldCreateWithStaticImportFriendlyMethod() {
+		// given
+		UUID uuid = UUID.randomUUID();
+
+		// when
+		FriendlyId id = friendlyId(uuid);
+
+		// then
+		assertEquals(uuid, id.toUuid());
+	}
+
+	@Test
+	void shouldReturnUuidWithToUuid() {
+		// given
+		UUID uuid = UUID.randomUUID();
+		FriendlyId id = FriendlyId.of(uuid);
+
+		// then
+		assertEquals(uuid, id.toUuid());
+		assertEquals(id.uuid(), id.toUuid());
+	}
+
+	@Test
+	void shouldReturnValueAsString() {
+		// given
+		UUID uuid = UUID.fromString("7b0f3a3e-3b3a-4b3a-8b3a-3b3a3b3a3b3a");
+		FriendlyId id = FriendlyId.of(uuid);
+
+		// when
+		String value = id.value();
+
+		// then
+		assertEquals(id.toString(), value);
+		assertEquals(com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid), value);
+	}
+
 }

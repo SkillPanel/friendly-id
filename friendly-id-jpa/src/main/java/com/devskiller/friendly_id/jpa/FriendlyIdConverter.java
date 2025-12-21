@@ -42,7 +42,7 @@ import com.devskiller.friendly_id.type.FriendlyId;
  * <h2>Query Examples</h2>
  * <pre>{@code
  * // JPQL - use UUID parameter
- * FriendlyId userId = FriendlyId.fromString("5wbwf6yUxVBcr48AMbz9cb");
+ * FriendlyId userId = FriendlyId.parse("5wbwf6yUxVBcr48AMbz9cb");
  * User user = em.createQuery("SELECT u FROM User u WHERE u.id = :id", User.class)
  *     .setParameter("id", userId)
  *     .getSingleResult();

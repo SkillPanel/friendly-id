@@ -367,17 +367,23 @@ import com.devskiller.friendly_id.type.FriendlyId;
 // Create from UUID
 FriendlyId id = FriendlyId.of(uuid);
 
-// Create from string
-FriendlyId id = FriendlyId.fromString("5wbwf6yUxVBcr48AMbz9cb");
+// Or use static import friendly method
+import static com.devskiller.friendly_id.type.FriendlyId.friendlyId;
+FriendlyId id = friendlyId(uuid);
+
+// Parse from string (accepts both FriendlyId and UUID formats)
+FriendlyId id = FriendlyId.parse("5wbwf6yUxVBcr48AMbz9cb");
+FriendlyId id = FriendlyId.parse("c3587ec5-0976-497f-8374-61e0c2ea3da5");
 
 // Create random
 FriendlyId id = FriendlyId.random();
 
 // Get UUID
-UUID uuid = id.uuid();
+UUID uuid = id.toUuid();
 
 // Get string representation
-String friendlyIdString = id.toString();
+String friendlyIdString = id.value();      // Returns FriendlyId string
+String friendlyIdString = id.toString();   // Same as value()
 ```
 
 The value object can be used in:
