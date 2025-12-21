@@ -17,12 +17,10 @@ public class FriendlyIdAnnotationIntrospector extends JacksonAnnotationIntrospec
 		IdFormat annotation = _findAnnotation(annotatedMethod, IdFormat.class);
 		if (annotatedMethod.getRawType() == UUID.class) {
 			if (annotation != null) {
-				switch (annotation.value()) {
-					case RAW:
-						return UUIDSerializer.class;
-					case URL62:
-						return FriendlyIdSerializer.class;
-				}
+				return switch (annotation.value()) {
+					case RAW -> UUIDSerializer.class;
+					case URL62 -> FriendlyIdSerializer.class;
+				};
 			}
 			return FriendlyIdSerializer.class;
 		} else {
@@ -32,28 +30,22 @@ public class FriendlyIdAnnotationIntrospector extends JacksonAnnotationIntrospec
 
 	@Override
 	public Object findDeserializer(Annotated annotatedMethod) {
-		IdFormat annotation = _findAnnotation(annotatedMethod, IdFormat.class);
+		var annotation = _findAnnotation(annotatedMethod, IdFormat.class);
 		if (rawDeserializationType(annotatedMethod) == UUID.class) {
 			if (annotation != null) {
-				switch (annotation.value()) {
-					case RAW:
-						return UUIDDeserializer.class;
-					case URL62:
-						return FriendlyIdDeserializer.class;
-				}
+				return switch (annotation.value()) {
+					case RAW -> UUIDDeserializer.class;
+					case URL62 -> FriendlyIdDeserializer.class;
+				};
 			}
 			return FriendlyIdDeserializer.class;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	private Class<?> rawDeserializationType(Annotated a) {
-		if (a instanceof AnnotatedMethod) {
-			AnnotatedMethod am = (AnnotatedMethod) a;
-			if (am.getParameterCount() == 1) {
-				return am.getRawParameterType(0);
-			}
+		if (a instanceof AnnotatedMethod am && am.getParameterCount() == 1) {
+			return am.getRawParameterType(0);
 		}
 		return a.getRawType();
 	}
