@@ -1,14 +1,15 @@
 package com.devskiller.friendly_id.openfeign;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import feign.Response;
+import com.devskiller.friendly_id.type.FriendlyId;
+
 import feign.codec.Decoder;
 
+import static com.devskiller.friendly_id.FriendlyIds.toFriendlyId;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FriendlyIdDecoderTest {
@@ -17,8 +18,8 @@ class FriendlyIdDecoderTest {
 	void shouldDecodeFriendlyIdStringToUuid() throws IOException {
 		// given
 		UUID expectedUuid = UUID.fromString("c3587ec5-0976-497f-8374-61e0c2ea3da5");
-		String friendlyIdString = com.devskiller.friendly_id.FriendlyId.toFriendlyId(expectedUuid);
-		
+		String friendlyIdString = toFriendlyId(expectedUuid);
+
 		Decoder delegateDecoder = (response, type) -> friendlyIdString;
 		FriendlyIdDecoder decoder = new FriendlyIdDecoder(delegateDecoder);
 
@@ -33,18 +34,18 @@ class FriendlyIdDecoderTest {
 	void shouldDecodeFriendlyIdStringToFriendlyIdValueObject() throws IOException {
 		// given
 		UUID uuid = UUID.fromString("c3587ec5-0976-497f-8374-61e0c2ea3da5");
-		String friendlyIdString = com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid);
-		
+		String friendlyIdString = toFriendlyId(uuid);
+
 		Decoder delegateDecoder = (response, type) -> friendlyIdString;
 		FriendlyIdDecoder decoder = new FriendlyIdDecoder(delegateDecoder);
 
 		// when
-		Object result = decoder.decode(null, com.devskiller.friendly_id.type.FriendlyId.class);
+		Object result = decoder.decode(null, FriendlyId.class);
 
 		// then
 		assertThat(result)
-				.isInstanceOf(com.devskiller.friendly_id.type.FriendlyId.class)
-				.extracting(fid -> ((com.devskiller.friendly_id.type.FriendlyId) fid).uuid())
+				.isInstanceOf(FriendlyId.class)
+				.extracting(fid -> ((FriendlyId) fid).uuid())
 				.isEqualTo(uuid);
 	}
 
