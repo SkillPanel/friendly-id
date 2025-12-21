@@ -14,20 +14,11 @@ public class FriendlyIdDeserializer extends UUIDDeserializer {
 
 	@Override
 	public UUID deserialize(JsonParser parser, DeserializationContext deserializationContext) throws IOException {
-
 		JsonToken token = parser.getCurrentToken();
 		if (token == JsonToken.VALUE_STRING) {
-			String string = parser.getValueAsString().trim();
-			if (looksLikeUuid(string)) {
-				return super.deserialize(parser, deserializationContext);
-			} else {
-				return FriendlyIds.toUuid(string);
-			}
+			String value = parser.getValueAsString().trim();
+			return FriendlyIds.toUuid(value);
 		}
-		throw new IllegalStateException("This is not friendly id");
-	}
-
-	private boolean looksLikeUuid(String value) {
-		return value.contains("-");
+		throw new IllegalStateException("Expected UUID or FriendlyId string");
 	}
 }
