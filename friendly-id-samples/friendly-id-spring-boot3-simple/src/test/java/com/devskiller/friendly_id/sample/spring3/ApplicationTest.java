@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.devskiller.friendly_id.FriendlyId;
+import com.devskiller.friendly_id.FriendlyIds;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -28,7 +28,7 @@ class ApplicationTest {
 	void shouldSerializeAllIdFormats() throws Exception {
 		// given
 		UUID uuid = UUID.randomUUID();
-		String friendlyId = FriendlyId.toFriendlyId(uuid);
+		String friendlyId = FriendlyIds.toFriendlyId(uuid);
 		String rawUuid = uuid.toString();
 
 		// when/then
@@ -46,7 +46,7 @@ class ApplicationTest {
 	void shouldDeserializeAndSerialize() throws Exception {
 		// given
 		UUID uuid = UUID.randomUUID();
-		String friendlyId = FriendlyId.toFriendlyId(uuid);
+		String friendlyId = FriendlyIds.toFriendlyId(uuid);
 		String json = """
 				{"id": "%s"}
 				""".formatted(friendlyId);

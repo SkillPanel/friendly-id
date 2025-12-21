@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import org.junit.jupiter.api.Test;
 
-import com.devskiller.friendly_id.FriendlyId;
+import com.devskiller.friendly_id.FriendlyIds;
 
 import static com.devskiller.friendly_id.spring.ObjectMapperConfiguration.mapper;
 import static org.assertj.core.api.Assertions.assertThat;

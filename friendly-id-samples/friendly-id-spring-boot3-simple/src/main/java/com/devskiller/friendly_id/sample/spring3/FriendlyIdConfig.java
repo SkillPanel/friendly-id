@@ -8,7 +8,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.devskiller.friendly_id.FriendlyId;
+import com.devskiller.friendly_id.FriendlyIds;
 import com.devskiller.friendly_id.jackson2.FriendlyIdJackson2Module;
 
 @Configuration
@@ -29,7 +29,7 @@ public class FriendlyIdConfig implements WebMvcConfigurer {
 
 		@Override
 		public UUID convert(String id) {
-			return FriendlyId.toUuid(id);
+			return FriendlyIds.toUuid(id);
 		}
 	}
 
@@ -37,7 +37,7 @@ public class FriendlyIdConfig implements WebMvcConfigurer {
 
 		@Override
 		public String convert(UUID id) {
-			return FriendlyId.toFriendlyId(id);
+			return FriendlyIds.toFriendlyId(id);
 		}
 	}
 }

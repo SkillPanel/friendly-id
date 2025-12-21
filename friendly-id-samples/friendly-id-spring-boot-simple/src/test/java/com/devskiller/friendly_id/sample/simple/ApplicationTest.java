@@ -9,7 +9,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.devskiller.friendly_id.FriendlyId;
+import com.devskiller.friendly_id.FriendlyIds;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -28,7 +28,7 @@ class ApplicationTest {
 	void shouldAcceptFriendlyIdAsPathVariable() throws Exception {
 		// given
 		UUID uuid = UUID.randomUUID();
-		String friendlyId = FriendlyId.toFriendlyId(uuid);
+		String friendlyId = FriendlyIds.toFriendlyId(uuid);
 		String rawUuid = uuid.toString();
 
 		// when/then
@@ -46,7 +46,7 @@ class ApplicationTest {
 	void shouldAcceptUuidAsPathVariable() throws Exception {
 		// given
 		UUID uuid = UUID.randomUUID();
-		String friendlyId = FriendlyId.toFriendlyId(uuid);
+		String friendlyId = FriendlyIds.toFriendlyId(uuid);
 		String rawUuid = uuid.toString();
 
 		// when/then - using raw UUID as path variable
@@ -64,7 +64,7 @@ class ApplicationTest {
 	void shouldDeserializeAndSerialize() throws Exception {
 		// given
 		UUID uuid = UUID.randomUUID();
-		String friendlyId = FriendlyId.toFriendlyId(uuid);
+		String friendlyId = FriendlyIds.toFriendlyId(uuid);
 		String json = """
 				{"id": "%s"}
 				""".formatted(friendlyId);
@@ -101,7 +101,7 @@ class ApplicationTest {
 	void shouldAcceptFriendlyIdAsRequestParam() throws Exception {
 		// given
 		UUID uuid = UUID.randomUUID();
-		String friendlyId = FriendlyId.toFriendlyId(uuid);
+		String friendlyId = FriendlyIds.toFriendlyId(uuid);
 		String rawUuid = uuid.toString();
 
 		// when/then - using FriendlyId as ?id=xxx
@@ -118,7 +118,7 @@ class ApplicationTest {
 	void shouldAcceptUuidAsRequestParam() throws Exception {
 		// given
 		UUID uuid = UUID.randomUUID();
-		String friendlyId = FriendlyId.toFriendlyId(uuid);
+		String friendlyId = FriendlyIds.toFriendlyId(uuid);
 		String rawUuid = uuid.toString();
 
 		// when/then - using raw UUID as ?id=xxx
@@ -135,7 +135,7 @@ class ApplicationTest {
 	void shouldAcceptFriendlyIdTypeAsRequestParam() throws Exception {
 		// given
 		UUID uuid = UUID.randomUUID();
-		String friendlyId = FriendlyId.toFriendlyId(uuid);
+		String friendlyId = FriendlyIds.toFriendlyId(uuid);
 		String rawUuid = uuid.toString();
 
 		// when/then - using FriendlyId string with @RequestParam FriendlyId type

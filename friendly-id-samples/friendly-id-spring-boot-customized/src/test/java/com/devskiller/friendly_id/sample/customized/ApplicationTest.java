@@ -9,11 +9,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.devskiller.friendly_id.FriendlyId;
+import com.devskiller.friendly_id.FriendlyIds;
 import com.devskiller.friendly_id.spring.EnableFriendlyId;
 
-import static com.devskiller.friendly_id.FriendlyId.toFriendlyId;
-import static com.devskiller.friendly_id.FriendlyId.toUuid;
+import static com.devskiller.friendly_id.FriendlyIds.toFriendlyId;
+import static com.devskiller.friendly_id.FriendlyIds.toUuid;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

@@ -1,11 +1,10 @@
 package com.devskiller.friendly_id;
 
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
-
 import java.math.BigInteger;
 import java.util.Random;
 import java.util.UUID;
+
+import org.junit.jupiter.api.RepeatedTest;
 
 import static com.devskiller.friendly_id.FriendlyId.toFriendlyId;
 import static com.devskiller.friendly_id.FriendlyId.toUuid;
