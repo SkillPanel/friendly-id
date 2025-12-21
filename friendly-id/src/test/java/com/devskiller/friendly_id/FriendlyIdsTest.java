@@ -6,16 +6,15 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.RepeatedTest;
 
-import static com.devskiller.friendly_id.FriendlyIds.toFriendlyId;
-import static com.devskiller.friendly_id.FriendlyIds.toUuid;
+import static com.devskiller.friendly_id.FriendlyIds.*;
 import static com.devskiller.friendly_id.IdUtil.areEqualIgnoringLeadingZeros;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class FriendlyIdTest {
+class FriendlyIdsTest {
 
 	@RepeatedTest(1000)
 	void shouldCreateValidIdsThatConformToUuidType4() {
-		UUID uuid = toUuid(FriendlyIds.createFriendlyId());
+		UUID uuid = toUuid(createFriendlyId());
 		assertThat(uuid.version()).isEqualTo(4);
 	}
 
