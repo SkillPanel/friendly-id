@@ -1,5 +1,6 @@
 package com.devskiller.friendly_id.type;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
@@ -61,6 +62,7 @@ import com.devskiller.friendly_id.FriendlyIds;
  */
 public final class FriendlyId implements Serializable, Comparable<FriendlyId> {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private final UUID uuid;
