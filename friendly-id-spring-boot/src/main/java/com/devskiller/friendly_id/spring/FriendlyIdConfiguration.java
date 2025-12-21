@@ -9,10 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.devskiller.friendly_id.FriendlyIds;
 import com.devskiller.friendly_id.jackson.FriendlyIdModule;
-
-import static com.devskiller.friendly_id.FriendlyId.toFriendlyId;
-import static com.devskiller.friendly_id.FriendlyId.toUuid;
+import com.devskiller.friendly_id.type.FriendlyId;
 
 /**
  * Configuration for FriendlyId integration with Spring MVC.
@@ -31,12 +30,10 @@ public class FriendlyIdConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
-		registry.addConverter(String.class, UUID.class, id -> toUuid(id));
-		registry.addConverter(UUID.class, String.class, id -> toFriendlyId(id));
-		registry.addConverter(String.class, com.devskiller.friendly_id.type.FriendlyId.class,
-				com.devskiller.friendly_id.type.FriendlyId::parse);
-		registry.addConverter(com.devskiller.friendly_id.type.FriendlyId.class, String.class,
-				com.devskiller.friendly_id.type.FriendlyId::toString);
+		registry.addConverter(String.class, UUID.class, FriendlyIds::toUuid);
+		registry.addConverter(UUID.class, String.class, FriendlyIds::toFriendlyId);
+		registry.addConverter(String.class, FriendlyId.class, FriendlyId::parse);
+		registry.addConverter(FriendlyId.class, String.class, FriendlyId::toString);
 	}
 
 	@Bean
