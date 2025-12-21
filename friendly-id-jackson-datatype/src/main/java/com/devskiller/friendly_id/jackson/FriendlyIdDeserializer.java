@@ -10,6 +10,8 @@ import tools.jackson.databind.ValueDeserializer;
 import tools.jackson.databind.deser.std.StdDeserializer;
 
 import com.devskiller.friendly_id.FriendlyId;
+import com.devskiller.friendly_id.FriendlyIdFormat;
+import com.devskiller.friendly_id.IdFormat;
 
 public class FriendlyIdDeserializer extends StdDeserializer<UUID> {
 

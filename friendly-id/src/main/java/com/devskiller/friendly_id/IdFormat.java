@@ -1,4 +1,4 @@
-package com.devskiller.friendly_id.jackson;
+package com.devskiller.friendly_id;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

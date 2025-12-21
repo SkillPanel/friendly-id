@@ -9,6 +9,8 @@ import tools.jackson.databind.ValueSerializer;
 import tools.jackson.databind.ser.std.StdSerializer;
 
 import com.devskiller.friendly_id.FriendlyId;
+import com.devskiller.friendly_id.FriendlyIdFormat;
+import com.devskiller.friendly_id.IdFormat;
 
 public class FriendlyIdSerializer extends StdSerializer<UUID> {
 

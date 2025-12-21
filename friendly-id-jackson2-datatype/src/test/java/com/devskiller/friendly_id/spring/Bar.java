@@ -2,8 +2,8 @@ package com.devskiller.friendly_id.spring;
 
 import java.util.UUID;
 
-import com.devskiller.friendly_id.jackson2.FriendlyIdFormat;
-import com.devskiller.friendly_id.jackson2.IdFormat;
+import com.devskiller.friendly_id.FriendlyIdFormat;
+import com.devskiller.friendly_id.IdFormat;
 
 public class Bar {
 
