@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import com.devskiller.friendly_id.type.FriendlyId;
 
+import static com.devskiller.friendly_id.FriendlyIds.toFriendlyId;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FriendlyIdConverterTest {
@@ -95,6 +96,6 @@ class FriendlyIdConverterTest {
 		String friendlyIdString = friendlyId.toString();
 
 		// then
-		assertEquals(com.devskiller.friendly_id.FriendlyId.toFriendlyId(uuid), friendlyIdString);
+		assertEquals(toFriendlyId(uuid), friendlyIdString);
 	}
 }
