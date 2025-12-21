@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import java.util.UUID;
 
 import com.devskiller.friendly_id.FriendlyIds;
+import com.devskiller.friendly_id.type.FriendlyId;
 
 import feign.FeignException;
 import feign.Response;
@@ -24,7 +25,7 @@ import static com.devskiller.friendly_id.type.FriendlyId.parse;
  * </p>
  * <ul>
  *   <li>FriendlyId string → {@link UUID}</li>
- *   <li>FriendlyId string → {@link com.devskiller.friendly_id.type.FriendlyId}</li>
+ *   <li>FriendlyId string → {@link FriendlyId}</li>
  * </ul>
  *
  * @see FriendlyIdEncoder
@@ -46,8 +47,8 @@ public class FriendlyIdDecoder implements Decoder {
 			return FriendlyIds.toUuid(stringValue);
 		}
 
-		if (type == com.devskiller.friendly_id.type.FriendlyId.class && decoded instanceof String stringValue) {
-			return parse(stringValue);
+		if (type == FriendlyId.class && decoded instanceof String stringValue) {
+			return FriendlyId.parse(stringValue);
 		}
 
 		return decoded;

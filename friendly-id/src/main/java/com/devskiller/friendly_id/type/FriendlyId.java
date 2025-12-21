@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.devskiller.friendly_id.FriendlyIds;
+
 /**
  * Value object representing a FriendlyId that wraps a UUID.
  * <p>
@@ -108,21 +110,7 @@ public final class FriendlyId implements Serializable, Comparable<FriendlyId> {
 	 */
 	public static FriendlyId parse(String value) {
 		Objects.requireNonNull(value, "Value cannot be null");
-		if (isStandardUuidFormat(value)) {
-			return new FriendlyId(UUID.fromString(value));
-		}
-		return new FriendlyId(com.devskiller.friendly_id.FriendlyIds.toUuid(value));
-	}
-
-	/**
-	 * Checks if the string matches standard UUID format (36 chars with hyphens).
-	 */
-	private static boolean isStandardUuidFormat(String value) {
-		return value.length() == 36
-				&& value.charAt(8) == '-'
-				&& value.charAt(13) == '-'
-				&& value.charAt(18) == '-'
-				&& value.charAt(23) == '-';
+		return new FriendlyId(FriendlyIds.toUuid(value));
 	}
 
 	/**
@@ -162,7 +150,7 @@ public final class FriendlyId implements Serializable, Comparable<FriendlyId> {
 	 * @return the FriendlyId string
 	 */
 	public String value() {
-		return com.devskiller.friendly_id.FriendlyIds.toFriendlyId(uuid);
+		return FriendlyIds.toFriendlyId(uuid);
 	}
 
 	/**

@@ -133,9 +133,11 @@ This converts a UUID in the form of a string to a FriendlyID, for example: `5wbw
 
  ```java
 FriendlyIds.toUuid("5wbwf6yUxVBcr48AMbz9cb");
+// or
+FriendlyIds.toUuid("c3587ec5-0976-497f-8374-61e0c2ea3da5");
 ```
 
-This converts a FriendlyID to its UUID, for example: `c3587ec5-0976-497f-8374-61e0c2ea3da5`
+This converts a FriendlyID or UUID string to UUID. Both formats are accepted.
 
 
 Notes
