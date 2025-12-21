@@ -15,53 +15,50 @@ class FieldWithoutFriendlyIdTest {
 
 	@Test
 	void shouldAllowToDoNotCodeUuidInDataObject() {
-		Foo foo = new Foo();
-		foo.setRawUuid(uuid);
-		foo.setFriendlyId(uuid);
+		var foo = new Foo(uuid, uuid);
 
-		String json = jsonMapper.writeValueAsString(foo);
+		var json = jsonMapper.writeValueAsString(foo);
 
 		// JSON field order may vary, so check each field separately
 		assertThat(json).contains("\"rawUuid\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\"");
 		assertThat(json).contains("\"friendlyId\":\"7Jsg6CPDscHawyJfE70b9x\"");
 
-		Foo cloned = jsonMapper.readValue(json, Foo.class);
-		assertThat(cloned.getRawUuid()).isEqualTo(foo.getFriendlyId());
+		var cloned = jsonMapper.readValue(json, Foo.class);
+		assertThat(cloned.rawUuid()).isEqualTo(foo.friendlyId());
 	}
 
 	@Test
 	void shouldDeserializeUuidsInDataObject() {
-		String json = "{\"rawUuid\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\",\"friendlyId\":\"7Jsg6CPDscHawyJfE70b9x\"}";
+		var json = """
+				{"rawUuid":"f088ce5b-9279-4cc3-946a-c15ad740dd6d","friendlyId":"7Jsg6CPDscHawyJfE70b9x"}""";
 
-		Foo cloned = jsonMapper.readValue(json, Foo.class);
-		assertThat(cloned.getRawUuid()).isEqualTo(uuid);
-		assertThat(cloned.getFriendlyId()).isEqualTo(uuid);
+		var cloned = jsonMapper.readValue(json, Foo.class);
+		assertThat(cloned.rawUuid()).isEqualTo(uuid);
+		assertThat(cloned.friendlyId()).isEqualTo(uuid);
 	}
-
 
 	@Test
 	void shouldSerializeUuidsInValueObject() {
 		jsonMapper = mapper();
 
-		Bar bar = new Bar(uuid, uuid);
+		var bar = new Bar(uuid, uuid);
 
-		String json = jsonMapper.writeValueAsString(bar);
+		var json = jsonMapper.writeValueAsString(bar);
 
-		assertThat(json).isEqualToIgnoringWhitespace(
-				"{\"rawUuid\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\",\"friendlyId\":\"7Jsg6CPDscHawyJfE70b9x\"}"
-		);
+		assertThat(json).isEqualToIgnoringWhitespace("""
+				{"rawUuid":"f088ce5b-9279-4cc3-946a-c15ad740dd6d","friendlyId":"7Jsg6CPDscHawyJfE70b9x"}""");
 	}
 
 	@Test
-	void shouldDeserializeUuuidsValueObject() {
+	void shouldDeserializeUuidsInValueObject() {
 		jsonMapper = mapper();
 
-		String json = "{\"rawUuid\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\",\"friendlyId\":\"7Jsg6CPDscHawyJfE70b9x\"}";
+		var json = """
+				{"rawUuid":"f088ce5b-9279-4cc3-946a-c15ad740dd6d","friendlyId":"7Jsg6CPDscHawyJfE70b9x"}""";
 
-		Bar deserialized = jsonMapper.readValue(json, Bar.class);
+		var deserialized = jsonMapper.readValue(json, Bar.class);
 
-		assertThat(deserialized.getRawUuid()).isEqualTo(uuid);
-		assertThat(deserialized.getFriendlyId()).isEqualTo(uuid);
+		assertThat(deserialized.rawUuid()).isEqualTo(uuid);
+		assertThat(deserialized.friendlyId()).isEqualTo(uuid);
 	}
-
 }

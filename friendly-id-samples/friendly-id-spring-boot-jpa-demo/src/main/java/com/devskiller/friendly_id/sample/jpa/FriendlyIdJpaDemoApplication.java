@@ -39,11 +39,14 @@ public class FriendlyIdJpaDemoApplication {
 	@Bean
 	public CommandLineRunner initData(ProductRepository repository) {
 		return args -> {
-			System.out.println("\n========================================");
-			System.out.println("Initializing demo products...");
-			System.out.println("========================================\n");
+			System.out.println("""
 
-			Product laptop = new Product(
+					========================================
+					Initializing demo products...
+					========================================
+					""");
+
+			var laptop = new Product(
 					"Laptop",
 					"High-performance laptop for developers",
 					new BigDecimal("1299.99"),
@@ -52,7 +55,7 @@ public class FriendlyIdJpaDemoApplication {
 			repository.save(laptop);
 			System.out.println("Created product: Laptop with ID: " + laptop.getId());
 
-			Product mouse = new Product(
+			var mouse = new Product(
 					"Wireless Mouse",
 					"Ergonomic wireless mouse",
 					new BigDecimal("29.99"),
@@ -61,7 +64,7 @@ public class FriendlyIdJpaDemoApplication {
 			repository.save(mouse);
 			System.out.println("Created product: Wireless Mouse with ID: " + mouse.getId());
 
-			Product keyboard = new Product(
+			var keyboard = new Product(
 					"Mechanical Keyboard",
 					"RGB mechanical keyboard with Cherry MX switches",
 					new BigDecimal("149.99"),
@@ -70,20 +73,23 @@ public class FriendlyIdJpaDemoApplication {
 			repository.save(keyboard);
 			System.out.println("Created product: Mechanical Keyboard with ID: " + keyboard.getId());
 
-			System.out.println("\n========================================");
-			System.out.println("Demo ready!");
-			System.out.println("========================================");
-			System.out.println("REST API: http://localhost:8080/api/products");
-			System.out.println("H2 Console: http://localhost:8080/h2-console");
-			System.out.println("  JDBC URL: jdbc:h2:mem:friendlyid_demo");
-			System.out.println("  Username: sa");
-			System.out.println("  Password: (empty)");
-			System.out.println("========================================\n");
+			System.out.println("""
 
-			System.out.println("Try these commands:");
-			System.out.println("  curl http://localhost:8080/api/products");
-			System.out.println("  curl http://localhost:8080/api/products/" + laptop.getId());
-			System.out.println("\n");
+					========================================
+					Demo ready!
+					========================================
+					REST API: http://localhost:8080/api/products
+					H2 Console: http://localhost:8080/h2-console
+					  JDBC URL: jdbc:h2:mem:friendlyid_demo
+					  Username: sa
+					  Password: (empty)
+					========================================
+
+					Try these commands:
+					  curl http://localhost:8080/api/products
+					  curl http://localhost:8080/api/products/%s
+
+					""".formatted(laptop.getId()));
 		};
 	}
 }

@@ -18,9 +18,6 @@ public class Application {
 
 	@GetMapping("/bars/{id}")
 	Bar getBar(@PathVariable UUID id) {
-		Bar bar = new Bar();
-		bar.setId(id);
-		return bar;
+		return new Bar(id);
 	}
-
 }

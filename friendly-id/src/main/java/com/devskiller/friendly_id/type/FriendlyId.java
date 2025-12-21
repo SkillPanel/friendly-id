@@ -120,10 +120,7 @@ public final class FriendlyId implements Serializable, Comparable<FriendlyId> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		FriendlyId that = (FriendlyId) o;
-		return uuid.equals(that.uuid);
+		return this == o || (o instanceof FriendlyId that && uuid.equals(that.uuid));
 	}
 
 	@Override
