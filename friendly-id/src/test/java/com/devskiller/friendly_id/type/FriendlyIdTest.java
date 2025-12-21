@@ -87,12 +87,13 @@ class FriendlyIdTest {
 		UUID uuid1 = UUID.fromString("00000000-0000-0000-0000-000000000001");
 		UUID uuid2 = UUID.fromString("00000000-0000-0000-0000-000000000002");
 		FriendlyId id1 = FriendlyId.of(uuid1);
+		FriendlyId id1Copy = FriendlyId.of(uuid1);
 		FriendlyId id2 = FriendlyId.of(uuid2);
 
 		// then
 		assertTrue(id1.compareTo(id2) < 0);
 		assertTrue(id2.compareTo(id1) > 0);
-		assertEquals(0, id1.compareTo(id1));
+		assertEquals(0, id1.compareTo(id1Copy));
 	}
 
 	@Test
