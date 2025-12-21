@@ -6,8 +6,8 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.RepeatedTest;
 
-import static com.devskiller.friendly_id.FriendlyId.toFriendlyId;
-import static com.devskiller.friendly_id.FriendlyId.toUuid;
+import static com.devskiller.friendly_id.FriendlyIds.toFriendlyId;
+import static com.devskiller.friendly_id.FriendlyIds.toUuid;
 import static com.devskiller.friendly_id.IdUtil.areEqualIgnoringLeadingZeros;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,7 +15,7 @@ class FriendlyIdTest {
 
 	@RepeatedTest(1000)
 	void shouldCreateValidIdsThatConformToUuidType4() {
-		UUID uuid = toUuid(FriendlyId.createFriendlyId());
+		UUID uuid = toUuid(FriendlyIds.createFriendlyId());
 		assertThat(uuid.version()).isEqualTo(4);
 	}
 

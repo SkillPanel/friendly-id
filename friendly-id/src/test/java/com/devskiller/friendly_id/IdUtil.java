@@ -1,11 +1,11 @@
 package com.devskiller.friendly_id;
 
-import static org.assertj.core.util.Objects.areEqual;
+import java.util.Objects;
 
-public class IdUtil {
+class IdUtil {
 
 	static boolean areEqualIgnoringLeadingZeros(String code1, String code2) {
-		return areEqual(removeLeadingZeros(code1), removeLeadingZeros(code2));
+		return Objects.equals(removeLeadingZeros(code1), removeLeadingZeros(code2));
 	}
 
 	private static String removeLeadingZeros(String string) {
