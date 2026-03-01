@@ -15,7 +15,7 @@
     <description>Jackson 2.x module for JSON serialization/deserialization of UUIDs as FriendlyIds</description>
 
     <properties>
-        <jackson2.version>2.18.2</jackson2.version>
+        <jackson2.version>2.18.6</jackson2.version>
     </properties>
 
     <dependencies>
