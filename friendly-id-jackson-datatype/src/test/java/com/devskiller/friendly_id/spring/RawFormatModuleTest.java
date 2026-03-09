@@ -54,18 +54,4 @@ class RawFormatModuleTest {
 		assertThat(json).contains("\"friendlyId\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\"");
 	}
 
-	@Test
-	void shouldSerializeFriendlyFormatWithUrl62Override() {
-		var mapper = JsonMapper.builder()
-				.addModule(new FriendlyIdModule(FriendlyIdFormat.RAW))
-				.build();
-
-		// Foo: rawUuid=@IdFormat(RAW), friendlyId=no annotation (module default RAW)
-		// Both should be standard UUID when module is RAW
-		var foo = new Foo(uuid, uuid);
-		String json = mapper.writeValueAsString(foo);
-
-		assertThat(json).contains("\"rawUuid\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\"");
-		assertThat(json).contains("\"friendlyId\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\"");
-	}
 }
