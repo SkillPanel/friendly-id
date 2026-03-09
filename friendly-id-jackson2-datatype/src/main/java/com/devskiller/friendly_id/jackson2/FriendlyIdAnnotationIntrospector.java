@@ -19,30 +19,23 @@ public class FriendlyIdAnnotationIntrospector extends JacksonAnnotationIntrospec
 	@Override
 	public Object findSerializer(Annotated annotatedMethod) {
 		IdFormat annotation = _findAnnotation(annotatedMethod, IdFormat.class);
-		if (annotatedMethod.getRawType() == UUID.class) {
-			if (annotation != null) {
-				return switch (annotation.value()) {
-					case RAW -> UUIDSerializer.class;
-					case URL62 -> FriendlyIdSerializer.class;
-				};
-			}
-			return FriendlyIdSerializer.class;
-		} else {
-			return null;
+		if (annotatedMethod.getRawType() == UUID.class && annotation != null) {
+			return switch (annotation.value()) {
+				case RAW -> UUIDSerializer.class;
+				case URL62 -> FriendlyIdSerializer.class;
+			};
 		}
+		return null;
 	}
 
 	@Override
 	public Object findDeserializer(Annotated annotatedMethod) {
 		var annotation = _findAnnotation(annotatedMethod, IdFormat.class);
-		if (rawDeserializationType(annotatedMethod) == UUID.class) {
-			if (annotation != null) {
-				return switch (annotation.value()) {
-					case RAW -> UUIDDeserializer.class;
-					case URL62 -> FriendlyIdDeserializer.class;
-				};
-			}
-			return FriendlyIdDeserializer.class;
+		if (rawDeserializationType(annotatedMethod) == UUID.class && annotation != null) {
+			return switch (annotation.value()) {
+				case RAW -> UUIDDeserializer.class;
+				case URL62 -> FriendlyIdDeserializer.class;
+			};
 		}
 		return null;
 	}
