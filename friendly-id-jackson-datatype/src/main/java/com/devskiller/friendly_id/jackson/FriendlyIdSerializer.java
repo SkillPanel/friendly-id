@@ -20,7 +20,7 @@ public class FriendlyIdSerializer extends StdSerializer<UUID> {
 		this(true);
 	}
 
-	private FriendlyIdSerializer(boolean useFriendlyFormat) {
+	FriendlyIdSerializer(boolean useFriendlyFormat) {
 		super(UUID.class);
 		this.useFriendlyFormat = useFriendlyFormat;
 	}

@@ -11,12 +11,23 @@ import com.devskiller.friendly_id.FriendlyIds;
 
 public class FriendlyIdSerializer extends StdSerializer<UUID> {
 
+	private final boolean useFriendlyFormat;
+
 	public FriendlyIdSerializer() {
+		this(true);
+	}
+
+	FriendlyIdSerializer(boolean useFriendlyFormat) {
 		super(UUID.class);
+		this.useFriendlyFormat = useFriendlyFormat;
 	}
 
 	@Override
 	public void serialize(UUID uuid, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-		jsonGenerator.writeString(FriendlyIds.toFriendlyId(uuid));
+		if (useFriendlyFormat) {
+			jsonGenerator.writeString(FriendlyIds.toFriendlyId(uuid));
+		} else {
+			jsonGenerator.writeString(uuid.toString());
+		}
 	}
 }

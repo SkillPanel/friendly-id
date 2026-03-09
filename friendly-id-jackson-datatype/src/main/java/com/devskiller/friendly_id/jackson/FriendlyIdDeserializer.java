@@ -22,7 +22,7 @@ public class FriendlyIdDeserializer extends StdDeserializer<UUID> {
 		this(true);
 	}
 
-	private FriendlyIdDeserializer(boolean useFriendlyFormat) {
+	FriendlyIdDeserializer(boolean useFriendlyFormat) {
 		super(UUID.class);
 		this.useFriendlyFormat = useFriendlyFormat;
 	}
