@@ -2,3 +2,12 @@
 *.iml
 target
 pom.xml.versionsBackup
+
+# Eclipse / VS Code
+.project
+.classpath
+.settings/
+.factorypath
+
+# Claude Code
+CLAUDE.md
