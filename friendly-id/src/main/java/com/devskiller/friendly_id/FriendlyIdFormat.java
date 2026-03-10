@@ -11,7 +11,7 @@ public enum FriendlyIdFormat {
 	URL62,
 
 	/**
-	 * Leave this ID as is (without conversion)
+	 * Standard UUID format (without Base62 conversion)
 	 */
-	RAW
+	UUID
 }

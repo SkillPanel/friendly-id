@@ -14,7 +14,7 @@ import com.devskiller.friendly_id.type.FriendlyId;
  * enabling automatic conversion between UUID values and their FriendlyId string representation.
  * </p>
  * <p>
- * By default, UUIDs are serialized as Base62 FriendlyIds. Use {@link FriendlyIdFormat#RAW}
+ * By default, UUIDs are serialized as Base62 FriendlyIds. Use {@link FriendlyIdFormat#UUID}
  * to serialize UUIDs in standard format while still accepting both formats on deserialization.
  * Per-field format can always be overridden with {@link com.devskiller.friendly_id.IdFormat @IdFormat}.
  * </p>
@@ -31,7 +31,7 @@ public class FriendlyIdModule extends SimpleModule {
 	/**
 	 * Creates a module with the specified default serialization format.
 	 * <p>
-	 * When {@link FriendlyIdFormat#RAW} is used, UUIDs are serialized in standard format
+	 * When {@link FriendlyIdFormat#UUID} is used, UUIDs are serialized in standard format
 	 * but deserialization still accepts both standard UUIDs and Base62 FriendlyIds.
 	 * Per-field format can be overridden with {@link com.devskiller.friendly_id.IdFormat @IdFormat}.
 	 *

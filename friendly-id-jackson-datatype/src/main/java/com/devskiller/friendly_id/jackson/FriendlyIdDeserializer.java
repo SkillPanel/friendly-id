@@ -45,7 +45,7 @@ public class FriendlyIdDeserializer extends StdDeserializer<UUID> {
 	public ValueDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) {
 		if (property != null) {
 			var annotation = property.getAnnotation(IdFormat.class);
-			if (annotation != null && annotation.value() == FriendlyIdFormat.RAW) {
+			if (annotation != null && annotation.value() == FriendlyIdFormat.UUID) {
 				return new FriendlyIdDeserializer(false);
 			}
 		}

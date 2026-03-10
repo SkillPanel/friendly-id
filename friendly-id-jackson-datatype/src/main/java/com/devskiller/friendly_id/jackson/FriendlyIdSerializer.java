@@ -38,7 +38,7 @@ public class FriendlyIdSerializer extends StdSerializer<UUID> {
 	public ValueSerializer<?> createContextual(SerializationContext ctxt, BeanProperty property) {
 		if (property != null) {
 			IdFormat annotation = property.getAnnotation(IdFormat.class);
-			if (annotation != null && annotation.value() == FriendlyIdFormat.RAW) {
+			if (annotation != null && annotation.value() == FriendlyIdFormat.UUID) {
 				return new FriendlyIdSerializer(false);
 			}
 		}

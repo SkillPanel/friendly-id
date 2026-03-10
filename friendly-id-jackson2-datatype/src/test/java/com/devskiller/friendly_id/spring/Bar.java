@@ -7,7 +7,7 @@ import com.devskiller.friendly_id.IdFormat;
 
 public class Bar {
 
-	@IdFormat(FriendlyIdFormat.RAW)
+	@IdFormat(FriendlyIdFormat.UUID)
 	private final UUID rawUuid;
 
 	private final UUID friendlyId;
