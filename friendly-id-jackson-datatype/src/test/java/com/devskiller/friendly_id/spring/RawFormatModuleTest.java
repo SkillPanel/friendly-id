@@ -16,7 +16,7 @@ class RawFormatModuleTest {
 	private final UUID uuid = UUID.fromString("f088ce5b-9279-4cc3-946a-c15ad740dd6d");
 
 	private final JsonMapper mapper = JsonMapper.builder()
-			.addModule(new FriendlyIdModule(FriendlyIdFormat.RAW))
+			.addModule(new FriendlyIdModule(FriendlyIdFormat.UUID))
 			.build();
 
 	@Test
@@ -48,9 +48,9 @@ class RawFormatModuleTest {
 
 		String json = mapper.writeValueAsString(foo);
 
-		// rawUuid has @IdFormat(RAW) -> standard format
+		// rawUuid has @IdFormat(UUID) -> standard format
 		assertThat(json).contains("\"rawUuid\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\"");
-		// friendlyId has no annotation, module default is RAW -> standard format
+		// friendlyId has no annotation, module default is UUID -> standard format
 		assertThat(json).contains("\"friendlyId\":\"f088ce5b-9279-4cc3-946a-c15ad740dd6d\"");
 	}
 

@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Spring Boot JPA demo application showcasing FriendlyId with JPA, REST API, and OpenFeign
 
 ### Changed
+- **Breaking**: Renamed `FriendlyIdFormat.RAW` to `FriendlyIdFormat.UUID` for clarity
 - Upgraded from Java 8 to Java 21
 - Upgraded from Spring Boot 2.2.2 to 3.4.1
 - Upgraded from JUnit 4 to JUnit 5

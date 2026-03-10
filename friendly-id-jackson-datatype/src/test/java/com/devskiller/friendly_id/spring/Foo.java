@@ -6,6 +6,6 @@ import com.devskiller.friendly_id.FriendlyIdFormat;
 import com.devskiller.friendly_id.IdFormat;
 
 public record Foo(
-		@IdFormat(FriendlyIdFormat.RAW) UUID rawUuid,
+		@IdFormat(FriendlyIdFormat.UUID) UUID rawUuid,
 		UUID friendlyId
 ) {}
