@@ -18,6 +18,7 @@ class Base62 {
 
 	private static final BigInteger BASE = BigInteger.valueOf(62);
 	private static final String DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	private static final Pattern DIGITS_PATTERN = Pattern.compile("[" + DIGITS + "]*");
 
 	/**
 	 * Encodes a number using Base62 encoding.
@@ -63,7 +64,7 @@ class Base62 {
 			return throwIllegalArgumentException("String '%s' must not be empty", string);
 		}
 
-		if (!Pattern.matches("[" + DIGITS + "]*", string)) {
+		if (!DIGITS_PATTERN.matcher(string).matches()) {
 			throwIllegalArgumentException("String '%s' contains illegal characters, only '%s' are allowed", string, DIGITS);
 		}
 
