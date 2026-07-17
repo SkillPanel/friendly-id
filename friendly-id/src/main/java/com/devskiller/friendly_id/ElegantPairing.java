@@ -3,13 +3,15 @@ package com.devskiller.friendly_id;
 import java.math.BigInteger;
 
 import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.TWO;
 
 /**
  * https://stackoverflow.com/questions/919612/mapping-two-integers-to-one-in-a-unique-and-deterministic-way/13871379#13871379
  */
 class ElegantPairing {
 
-	private static final BigInteger TWO = new BigInteger("2");
+	private ElegantPairing() {
+	}
 
 	static BigInteger pair(BigInteger first, BigInteger second) {
 		BigInteger a = first.signum() >= 0 ? TWO.multiply(first) : TWO.negate().multiply(first).subtract(ONE);
