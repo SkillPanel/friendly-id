@@ -27,8 +27,40 @@ import java.util.UUID;
  */
 public final class FriendlyIds {
 
+	private static volatile FriendlyIdEncoding encoding = FriendlyIdEncoding.STANDARD;
+
 	private FriendlyIds() {
 		// utility class
+	}
+
+	/**
+	 * Sets the global {@link FriendlyIdEncoding} used by all conversions in this library
+	 * (including the Jackson, JPA, jOOQ, OpenFeign and Spring integrations).
+	 * <p>
+	 * Intended to be called once during application startup, before any conversion happens.
+	 * Identifiers encoded with one strategy silently decode to a <em>different</em> UUID
+	 * under the other, so switching at runtime on live traffic is not supported.
+	 * <p>
+	 * With the Spring Boot starter this can be set declaratively via the
+	 * {@code com.devskiller.friendly-id.encoding} property.
+	 *
+	 * @param friendlyIdEncoding encoding to use, must not be null
+	 * @throws NullPointerException if friendlyIdEncoding is null
+	 * @since 2.0.0-beta6
+	 */
+	public static void setEncoding(FriendlyIdEncoding friendlyIdEncoding) {
+		Objects.requireNonNull(friendlyIdEncoding, "Encoding cannot be null");
+		encoding = friendlyIdEncoding;
+	}
+
+	/**
+	 * Returns the global {@link FriendlyIdEncoding}, {@link FriendlyIdEncoding#STANDARD} by default.
+	 *
+	 * @return the encoding used by all conversions in this library
+	 * @since 2.0.0-beta6
+	 */
+	public static FriendlyIdEncoding getEncoding() {
+		return encoding;
 	}
 
 	/**

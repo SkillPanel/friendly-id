@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Configurable UUID⇄FriendlyId encoding (`FriendlyIdEncoding`): `STANDARD` (default, the bit-shifting
+  pairing used since 1.1.0) and `LEGACY` (Szudzik's elegant pairing from the 1.0.x line). Set globally
+  with `FriendlyIds.setEncoding(...)` or, with the Spring Boot starter, via the
+  `com.devskiller.friendly-id.encoding=legacy` property. The two encodings are wire-incompatible —
+  decoding an identifier with the wrong one silently yields a different UUID — so services must keep
+  the encoding their identifiers were issued with (pinned by test vectors generated from released
+  1.0.4 and 1.1.0 artifacts).
 - FriendlyId value object type (`com.devskiller.friendly_id.type.FriendlyId`) as an alternative to raw UUID
 - JPA integration module (`friendly-id-jpa`) with automatic AttributeConverter
 - OpenFeign integration module (`friendly-id-openfeign`) for FriendlyId support in Feign clients
