@@ -1,5 +1,6 @@
 package com.devskiller.friendly_id;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import static java.math.BigInteger.ONE;
@@ -36,19 +37,27 @@ class ElegantPairing {
 	}
 
 	/**
-	 * Source: https://stackoverflow.com/a/36187890/516167
+	 * Returns floor(sqrt(n)) for a non-negative {@code n}, the same result as the binary search used by 1.0.x.
+	 * <p>
+	 * A double estimate is accurate to ~53 bits, one Newton step fixes the rest of a root of up to 66 bits,
+	 * and the loops correct the final off-by-one.
+	 * <p>
+	 * TODO: replace with {@link BigInteger#sqrt()} after moving to JDK 25 — it is ~9x slower than this on
+	 * JDK 21 but faster on JDK 25.
 	 */
-	private static BigInteger sqrt(BigInteger n) {
-		BigInteger a = BigInteger.ONE;
-		BigInteger b = n.shiftRight(1).add(TWO); // (n >> 1) + 2 (ensure 0 doesn't show up)
-		while (b.compareTo(a) >= 0) {
-			BigInteger mid = a.add(b).shiftRight(1); // (a+b) >> 1
-			if (mid.multiply(mid).compareTo(n) > 0)
-				b = mid.subtract(BigInteger.ONE);
-			else
-				a = mid.add(BigInteger.ONE);
+	static BigInteger sqrt(BigInteger n) {
+		if (n.signum() == 0) {
+			return n;
 		}
-		return a.subtract(BigInteger.ONE);
+		BigInteger a = new BigDecimal(Math.sqrt(n.doubleValue())).toBigInteger();
+		a = a.add(n.divide(a)).shiftRight(1);
+		while (a.multiply(a).compareTo(n) > 0) {
+			a = a.subtract(ONE);
+		}
+		for (BigInteger next = a.add(ONE); next.multiply(next).compareTo(n) <= 0; next = a.add(ONE)) {
+			a = next;
+		}
+		return a;
 	}
 
 }
