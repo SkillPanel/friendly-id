@@ -1,13 +1,13 @@
 package com.devskiller.friendly_id;
 
 import java.math.BigInteger;
-import java.util.Random;
 import java.util.UUID;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.OperationsPerInvocation;
+import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
@@ -26,6 +26,9 @@ public class UuidConverterBenchmark {
 
 	static final int SIZE = 1_000_000;
 
+	@Param({"STANDARD", "LEGACY"})
+	FriendlyIdEncoding encoding;
+
 	UUID[] uuids;
 	BigInteger[] ids;
 
@@ -42,7 +45,8 @@ public class UuidConverterBenchmark {
 		ids = new BigInteger[SIZE];
 		for (int i = 0; i < SIZE; i++) {
 			uuids[i] = UUID.randomUUID();
-			ids[i] = new BigInteger(127, new Random());
+			// each encoding maps UUIDs onto a different value range, so decode real encoder output
+			ids[i] = UuidConverter.toBigInteger(uuids[i], encoding);
 		}
 	}
 
@@ -50,7 +54,7 @@ public class UuidConverterBenchmark {
 	@OperationsPerInvocation(SIZE)
 	public void convertToBigInteger(Blackhole blackhole) {
 		for (int i = 0; i < SIZE; i++) {
-			blackhole.consume(UuidConverter.toBigInteger(uuids[i]));
+			blackhole.consume(UuidConverter.toBigInteger(uuids[i], encoding));
 		}
 	}
 
@@ -58,7 +62,7 @@ public class UuidConverterBenchmark {
 	@OperationsPerInvocation(SIZE)
 	public void convertFromBigInteger(Blackhole blackhole) {
 		for (int i = 0; i < SIZE; i++) {
-			blackhole.consume(UuidConverter.toUuid(ids[i]));
+			blackhole.consume(UuidConverter.toUuid(ids[i], encoding));
 		}
 	}
 }

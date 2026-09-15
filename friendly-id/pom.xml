@@ -36,6 +36,9 @@
     <profiles>
         <profile>
             <id>jmh</id>
+            <properties>
+                <jmh.version>1.37</jmh.version>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -111,7 +114,7 @@
                 <dependency>
                     <groupId>org.openjdk.jmh</groupId>
                     <artifactId>jmh-core</artifactId>
-                    <version>1.37</version>
+                    <version>${jmh.version}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
