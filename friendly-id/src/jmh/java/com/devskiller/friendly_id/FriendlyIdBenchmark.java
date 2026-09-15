@@ -6,6 +6,7 @@ import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.OperationsPerInvocation;
+import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
@@ -24,6 +25,9 @@ public class FriendlyIdBenchmark {
 
 	static final int SIZE = 1_000_000;
 
+	@Param({"STANDARD", "LEGACY"})
+	FriendlyIdEncoding encoding;
+
 	UUID[] uuids;
 	String[] ids;
 
@@ -37,11 +41,12 @@ public class FriendlyIdBenchmark {
 
 	@Setup
 	public void setup() {
+		FriendlyIds.setEncoding(encoding);
 		uuids = new UUID[SIZE];
 		ids = new String[SIZE];
 		for (int i = 0; i < SIZE; i++) {
 			uuids[i] = UUID.randomUUID();
-			ids[i] = FriendlyId.toFriendlyId(uuids[i]);
+			ids[i] = FriendlyIds.toFriendlyId(uuids[i]);
 		}
 	}
 
@@ -49,7 +54,7 @@ public class FriendlyIdBenchmark {
 	@OperationsPerInvocation(SIZE)
 	public void serializeUuid(Blackhole blackhole) {
 		for (int i = 0; i < SIZE; i++) {
-			blackhole.consume(FriendlyId.toFriendlyId(uuids[i]));
+			blackhole.consume(FriendlyIds.toFriendlyId(uuids[i]));
 		}
 	}
 
@@ -57,7 +62,7 @@ public class FriendlyIdBenchmark {
 	@OperationsPerInvocation(SIZE)
 	public void deserializeId(Blackhole blackhole) {
 		for (int i = 0; i < SIZE; i++) {
-			blackhole.consume(FriendlyId.toUuid(ids[i]));
+			blackhole.consume(FriendlyIds.toUuid(ids[i]));
 		}
 	}
 }

@@ -306,6 +306,32 @@ UUID and `FriendlyId` parameters are automatically converted to FriendlyId strin
 
 Version 2.0 introduces several breaking changes to support Spring Boot 4 and Jackson 3.
 
+#### Encoding compatibility (1.0.x vs 1.1.0+)
+
+Version 1.1.0 changed the internal UUID pairing algorithm, so **1.0.x and 1.1.0+ produce
+different FriendlyId strings for the same UUID** — and decoding an identifier with the wrong
+algorithm silently yields a different UUID. Since 2.0 the algorithm is selectable:
+
+| Encoding   | Wire-compatible with | Notes |
+|------------|----------------------|-------|
+| `STANDARD` | 1.1.0 and newer      | default |
+| `LEGACY`   | 1.0.x                | Szudzik's elegant pairing |
+
+Services upgrading **from 1.0.x** must opt into the legacy encoding to keep their published
+identifiers stable — either programmatically at startup:
+
+```java
+FriendlyIds.setEncoding(FriendlyIdEncoding.LEGACY);
+```
+
+or, with the Spring Boot starter, via a property:
+
+```properties
+com.devskiller.friendly-id.encoding=legacy
+```
+
+Services upgrading from 1.1.0+ need no changes — `STANDARD` is the default.
+
 #### Requirements
 
 | Version | Java | Spring Boot | Jackson |

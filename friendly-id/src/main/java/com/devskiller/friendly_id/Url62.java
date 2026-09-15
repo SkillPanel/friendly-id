@@ -15,7 +15,7 @@ class Url62 {
 	 * @return url62 encoded UUID
 	 */
 	static String encode(UUID uuid) {
-		BigInteger pair = UuidConverter.toBigInteger(uuid);
+		BigInteger pair = UuidConverter.toBigInteger(uuid, FriendlyIds.getEncoding());
 		return Base62.encode(pair);
 	}
 
@@ -27,7 +27,7 @@ class Url62 {
 	 */
 	static UUID decode(String id) {
 		BigInteger decoded = Base62.decode(id);
-		return UuidConverter.toUuid(decoded);
+		return UuidConverter.toUuid(decoded, FriendlyIds.getEncoding());
 	}
 
 }
