@@ -111,7 +111,7 @@ Dependencies
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id</artifactId>
-    <version>2.0.0-beta3</version>
+    <version>2.0.0-beta6</version>
 </dependency>
 ```
 
@@ -163,7 +163,7 @@ The FriendlyID library includes a Spring configuration to make it easy to add sh
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-spring-boot-starter</artifactId>
-    <version>2.0.0-beta3</version>
+    <version>2.0.0-beta6</version>
 </dependency>
 ```
     
@@ -207,7 +207,7 @@ First, add the following Jackson module dependency:
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-jackson-datatype</artifactId>
-    <version>2.0.0-beta3</version>
+    <version>2.0.0-beta6</version>
 </dependency>
 ```
 Then register the `FriendlyIdModule` module as follows:
@@ -226,7 +226,7 @@ First, add the dependency:
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-jooq</artifactId>
-    <version>2.0.0-beta3</version>
+    <version>2.0.0-beta6</version>
 </dependency>
 ```
 
@@ -253,7 +253,7 @@ First, add the dependency:
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-jpa</artifactId>
-    <version>2.0.0-beta3</version>
+    <version>2.0.0-beta6</version>
 </dependency>
 ```
 
@@ -281,7 +281,7 @@ First, add the dependency:
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-openfeign</artifactId>
-    <version>2.0.0-beta3</version>
+    <version>2.0.0-beta6</version>
 </dependency>
 ```
 
@@ -347,7 +347,7 @@ Update dependencies to use the new version:
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-spring-boot-starter</artifactId>
-    <version>2.0.0-beta3</version>
+    <version>2.0.0-beta6</version>
 </dependency>
 ```
 
@@ -359,7 +359,7 @@ Use the new Jackson 2.x module:
 <dependency>
     <groupId>com.devskiller.friendly-id</groupId>
     <artifactId>friendly-id-jackson2-datatype</artifactId>
-    <version>2.0.0-beta3</version>
+    <version>2.0.0-beta6</version>
 </dependency>
 ```
 
