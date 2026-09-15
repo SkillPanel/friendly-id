@@ -1,6 +1,5 @@
 package com.devskiller.friendly_id;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import static java.math.BigInteger.ONE;
@@ -39,8 +38,8 @@ class ElegantPairing {
 	/**
 	 * Returns floor(sqrt(n)) for a non-negative {@code n}, the same result as the binary search used by 1.0.x.
 	 * <p>
-	 * A double estimate is accurate to ~53 bits, one Newton step fixes the rest of a root of up to 66 bits,
-	 * and the loops correct the final off-by-one.
+	 * A double estimate is accurate to ~53 bits, one Newton step fixes the rest of a root of up to 64 bits
+	 * (paired UUIDs are below 2^128), and the loops correct the final off-by-one.
 	 * <p>
 	 * TODO: replace with {@link BigInteger#sqrt()} after moving to JDK 25 — it is ~9x slower than this on
 	 * JDK 21 but faster on JDK 25.
@@ -49,7 +48,10 @@ class ElegantPairing {
 		if (n.signum() == 0) {
 			return n;
 		}
-		BigInteger a = new BigDecimal(Math.sqrt(n.doubleValue())).toBigInteger();
+		double root = Math.sqrt(n.doubleValue());
+		// bits below the 53 significant ones are zero, so scaling them off keeps the conversion exact
+		int shift = Math.max(0, Math.getExponent(root) - 52);
+		BigInteger a = BigInteger.valueOf((long) Math.scalb(root, -shift)).shiftLeft(shift);
 		a = a.add(n.divide(a)).shiftRight(1);
 		while (a.multiply(a).compareTo(n) > 0) {
 			a = a.subtract(ONE);

@@ -26,7 +26,7 @@ class ElegantPairingTest {
 		}
 	}
 
-	// pairing two longs yields values up to ~2^130, so roots span up to 66 bits
+	// pairing two longs yields values below 2^128 (roots up to 64 bits); go a bit beyond that range
 	@ParameterizedTest
 	@MethodSource("rootBitLengths")
 	void sqrtShouldMatchFloorSqrtAroundPerfectSquares(int rootBitLength) {
